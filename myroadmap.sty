@@ -1,0 +1,259 @@
+%myroadmap.sty
+%https://en.wikibooks.org/wiki/LaTeX/Creating_Packages
+% Vielleicht besser eine eigene documentclass roadmap?
+%% Ländercodes nach ISO ALPHA 2 http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2012:328:0007:0015:DE:PDF
+\NeedsTeXFormat{LaTeX2e}[2020/10/01]%20201001
+\ProvidesPackage{myroadmap}[2023/12/12 Paket für Tech-Prod-Markt-Roadmaps von Dr. Bastian Ebeling]%
+\RequirePackage{calc}%
+\RequirePackage{mathabx}%https://www.sascha-frank.com/Arrow/latex-arrows.html
+\newlength{\myroadmapwidth}%
+\newlength{\myroadmappagediff}
+\newlength{\myroadmaplongestlabel}
+%\setlength{\myroadmapwidth}{219.4mm}%279.4mm
+%\addtolength{\myroadmapwidth}{-60mm}%
+\RequirePackage{fontspec}%
+\RequirePackage{booktabs}%
+\RequirePackage{pgfgantt}%
+% https://brandfactory.thyssenkrupp.info/basiselemente/farben/
+\definecolor{myBrandBlue}{RGB}{0,160,245}%
+\definecolor{myOrange}{RGB}{255,180,000}%
+\definecolor{myDarkBlue}{RGB}{0,60,125}%
+\definecolor{myMediumBlue}{RGB}{0,85,190}%
+\definecolor{myDarkBlue}{RGB}{0,120,220}%
+\definecolor{myBrightBlue}{RGB}{80,175,225}%
+\definecolor{myLightBlue}{RGB}{115,195,240}%
+\definecolor{myLightGray}{RGB}{238,240,242}%
+\definecolor{myGray}{RGB}{217,222,232}%
+\definecolor{myMediumGray}{RGB}{120,135,155}%
+\definecolor{myDarkGray}{RGB}{75,85,100}%
+\definecolor{myBlack}{RGB}{0,0,0}%
+%
+\@gtt@keydef{TechnologyColor}{myOrange}%
+\@gtt@keydef{ProductColor}{myDarkBlue}%
+\@gtt@keydef{ProjectColor}{myLightBlue}%
+%\RequirePackage[svgnames]{xcolor}
+%Load xcolor before tikz:
+%% Colors https://ftp.gwdg.de/pub/ctan/macros/latex/contrib/xcolor/xcolor.pdf
+%\selectcolormodel{cmyk}
+%Option svgnames für Farben bei documentclass nötig, sollte mit xcolor={svgnames} reichen - klappte nicht
+%% vielleicht hilft
+%\PassOptionsToPackage{svgnames}{xcolor}
+%https://tex.stackexchange.com/questions/74805/latex-error-option-clash-for-package-xcolor
+\RequirePackage{keyval}%
+\define@key{myroadmap}{aedate}{\def\myroadmap@aedate{#1}}%
+\define@key{myroadmap}{proddate}{\def\myroadmap@proddate{#1}}%
+\define@key{myroadmap}{techdate}{\def\myroadmap@techdate{#1}}%
+\define@key{myroadmap}{builddate}{\def\myroadmap@builddate{#1}}%
+\define@key{myroadmap}{state}{\def\myroadmap@state{#1}}%
+\define@key{myroadmap}{roadmapwidth}{\setlength{\myroadmapwidth}{#1}}%
+\setkeys{myroadmap}{aedate={\today}, proddate={\today}, techdate={\today}, builddate={\today},roadmapwidth={20cm},state={release}}%
+\AtBeginDocument{%
+	%\setmainfont[Mapping=tex-text]{Arial}%
+	%\setmainfont[Mapping=tex-text]{Times New Roman}%
+	%\setmainfont[Mapping=tex-text]{myTypeRegular}%
+	\newfontfamily\mySYMBOLfont{Cambria Math}%
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf
+%title bar height
+%https://tex.stackexchange.com/questions/162601/reduce-space-between-title-and-bars-in-pgfgantt
+%\definecolor{foobaryellow}{RGB}{234,187,0}
+%\definecolor{thecustomerprojectcolor}
+%https://www.namsu.de/Extra/pakete/Xcolor.html
+%https://www.ctan.org/tex-archive/macros/latex/contrib/xcolor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\makeatletter
+\@gtt@keydef{harvey percent}{25}%
+\@gtt@keydef{harvey radius}{1mm}%
+\@gtt@keydef{harvey color}{black}%
+%\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TikZ commands to draw a harvey ball at coordinate #1 with a percentage of #2
+\def\drawharveyball#1#2{
+	\pgfmathsetmacro\harveyangle{90 - 360 * (#2 / 100)}
+	\fill[white]
+		(#1) --
+		++(\harveyangle:\ganttvalueof{harvey radius})
+		arc [radius=\ganttvalueof{harvey radius}, start angle=\harveyangle, end angle=-270] --
+		cycle;
+	\fill[\ganttvalueof{harvey color}]
+		(#1) --
+		++(90:\ganttvalueof{harvey radius})
+		arc [radius=\ganttvalueof{harvey radius}, start angle=90, end angle=\harveyangle] --
+		cycle;
+	\draw
+		(#1) circle [radius=\ganttvalueof{harvey radius}];
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% use this chart element to specify (invisible) coordinates for Harvey links
+\newganttchartelement*{harveyanchor}{harveyanchor/.style={shape=ganttbar}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% idea for Inline, line and progress <https://tex.stackexchange.com/q/403126>
+\newcommand*{\placeTech}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{TechnologyColor},rounded corners=1mm}]{#2}{#3}{#4}}
+\newcommand*{\placePostTech}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
+\newcommand*{\placeProdDevSer}[4]{\ganttbar[name=#1,inline,bar label font=\footnotesize,bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
+\newcommand*{\placeProd}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{#2}{#3}{#4}}
+\newcommand*{\placeCust}[4]{\ganttbar[inline=true,
+									  bar height=0.9,
+									  bar top shift=0.05,
+									  bar/.append style={draw=none},
+									  bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}, rounded corners=2mm},
+									  name=#1]{#2}{#3-#4}{#3-{#4-1}}}
+\newcommand*{\placeBackupCust}[4]{\ganttbar[inline=true,
+									  bar height=0.9,
+									  bar top shift=0.05,
+									  bar/.append style={draw=none},
+									  bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40, rounded corners=2mm},
+									  name=#1]{#2}{#3-#4}{#3-{#4-1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% expl. Harvey TechIntegration
+\def\exHarveyTechInt{\begin{tikzpicture}%
+	\fill[\ganttvalueof{TechnologyColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-200] -- cycle;%
+	\draw (0,0) circle [radius=2mm];%
+	\end{tikzpicture}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% expl. Harvey Customer
+\def\exSellCust{\begin{tikzpicture}%
+	\fill[\ganttvalueof{ProjectColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-150] -- cycle;%
+	\draw (0,0) circle [radius=2mm];%
+	\end{tikzpicture}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\exRnD{\begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
+	\ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor},rounded corners=1mm}]{}{1}{2}%
+\end{ganttchart}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\exPostRnD{\begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
+	\ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{}{1}{2}%
+\end{ganttchart}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\exProdMarket{\begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
+	\ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{}{1}{2}%
+\end{ganttchart}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\exProdService{\begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
+	\ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{}{1}{2}%
+\end{ganttchart}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\exCoreCust{\begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
+	\ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor},draw=none, rounded corners=1mm}]{nation}{1}{1}%
+\end{ganttchart}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\exBackupCust{\begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
+	\ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40,draw=none, rounded corners=1mm}]{nation}{1}{1}%
+\end{ganttchart}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\exFiscYearBorder{\begin{tikzpicture}\draw[red,dashed] (0,0) -- (0,.4);\end{tikzpicture}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newganttlinktype{harveySellProd}{
+	\ganttsetendanchor{on bottom=0.5}
+	\coordinate (harveycenter) at (\xRight, \yUpper);
+	\ganttset{harvey color=\ganttvalueof{ProjectColor}}
+	\drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}
+	\draw [thick, ->,myMediumGray] (\xRight, \yUpper+\ganttvalueof{harvey radius}) -- (\xRight, \yLower);%-1mm%in draw[\ganttvalueof{ProductColor}]
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newganttlinktype{harveyImplementTech}{
+	%\ganttsetstartanchor{on top=0.5}
+	%\ganttsetendanchor{on bottom=0.5}
+	\coordinate (harveycenter) at (\xLeft, \yLower);
+	\draw [thick, ->,myMediumGray] (\xLeft, \yUpper) -- (\xLeft, \yLower-\ganttvalueof{harvey radius});%in draw[\ganttvalueof{ProductColor}]
+	\ganttset{harvey color=\ganttvalueof{TechnologyColor}}
+    \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\myroadmaplegend{%\rule{\myroadmappagediff/2}{130pt}%
+	\hspace*{\myroadmappagediff/2}%
+	\@ifundefined{@gtt@chart@0@extrasize}{%
+		\@gtt@PackageWarning{taken 50 pt as initial guess}%
+		\hspace*{50pt}%label width in front of box
+	}{%
+		\hspace*{\@nameuse{@gtt@chart@0@extrasize}}%label width in front of box
+  }%
+	%\begin{center}%
+	\begin{tabular}{lc|lc|lc}%
+		\multicolumn{2}{c|}{customer}&\multicolumn{2}{c|}{product}&\multicolumn{2}{c}{technology}\\%
+		%1&2&X&3&4&X&5&6&X&7&8\\%
+		\midrule%
+		core&\exCoreCust&marketing&\exProdMarket&RnD&\exRnD\\%
+		backup&\exBackupCust&development/servicing&\exProdService&post RnD&\exPostRnD\\%
+		get-rate{@}EDC&\exSellCust&\rotatebox[origin=c]{180}{\(\Rsh\)}&\multicolumn{1}{r|}{\rotatebox[origin=c]{90}{\(\Rsh\)}}&integration&\exHarveyTechInt\\%
+%		&\multicolumn{1}{c}{get-rate{@}EDC}&\multicolumn{1}{c}{\exSellCust}&\multicolumn{1}{c}{\exHarveyTechInt}&\multicolumn{1}{c}{integration}&\\%
+		{order intake date}&\tiny{\myroadmap@aedate}&{information date}&\tiny{\myroadmap@proddate}&{information date}&\tiny{\myroadmap@techdate}\\%
+	\end{tabular}
+	\hfill%
+	\begin{tabular}{lc}%
+		fiscal year border&\exFiscYearBorder\\%
+		\\
+		state&{\myroadmap@state}\\
+		creation date&\tiny{\myroadmap@builddate}\\
+		%text&\the\textwidth\\
+		%page&\the\paperwidth\\
+		%rm&\the\myroadmapwidth\\
+		%diff&\the\myroadmappagediff
+	\end{tabular}%
+	%\end{center}%
+	%\rule{\myroadmappagediff/2}{130pt}%
+	\hspace*{\myroadmappagediff/2}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\myroadmaplastlegend{\hspace*{\myroadmappagediff/2}\begin{center}%
+	\hspace*{\myroadmaplongestlabel}%
+	\begin{tabular}{lc|lc|lcp{1cm}lc}%
+		\multicolumn{2}{c|}{customer}&\multicolumn{2}{c|}{product}&\multicolumn{2}{c}{technology}&&&\\%
+		%1&2&X&3&4&X&5&6&X&7&8\\%
+		\cmidrule{1-6}%
+		core&\exCoreCust&marketing&\exProdMarket&RnD&\exRnD&&fiscal year border&\exFiscYearBorder\\%
+		backup&\exBackupCust&development/servicing&\exProdService&post RnD&\exPostRnD&&&\\%
+		get-rate{@}EDC&\exSellCust&&&integration&\exHarveyTechInt&&&\\%
+		{order intake date}&\tiny{\myroadmap@aedate}&{information date}&\tiny{\myroadmap@proddate}&{information date}&\tiny{\myroadmap@techdate}&&creation date&\tiny{\myroadmap@builddate}\\%
+	\end{tabular}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\myroadmaplegendold{\begin{center}%
+	\hspace*{\myroadmappagediff/2}%\hspace*{\myroadmaplongestlabel}%
+	\begin{tabular}{|p{\myroadmaplongestlabel}|lrp{1cm}lrp{1cm}lr|}%
+		&CustomerGet-Rate{@}EDC&\exSellCust&&Technology-Integration&\exHarveyTechInt&&Fiscal Year border&\begin{tikzpicture}\draw[red,dashed] (0,0) -- (0,.4);\end{tikzpicture}%
+	\\%
+		&Product Marketing&\exProdMarket&&Product Development/Servicing&\exProdService&&RnD&\exRnD%
+	\\%
+		&CoreCustomer&\exCoreCust&&BackupCustomer&\exBackupCust&&creation date&\tiny{\myroadmap@builddate}%
+	\\%
+	&{order intake date}&\tiny{\myroadmap@aedate}&&{product information date}&\tiny{\myroadmap@proddate}&&{technology information date}&\tiny{\myroadmap@techdate}%
+	\end{tabular}%
+	\hspace*{\myroadmappagediff/2}%
+	\end{center}%
+}
+%http://www.texfaq.org/FAQ-twooptarg
+%http://www.texfaq.org/FAQ-moren9
+\newenvironment{bastiroadmap}[4][]{\setkeys{myroadmap}{#1}%
+	\setlength{\myroadmappagediff}{\textwidth-\myroadmapwidth}%
+	\ifdefined\standalone%
+	\else%
+	\begin{center}#2\end{center}%
+	\fi%
+	\begin{center}%
+		%\hspace*{-275pt}
+		\begin{ganttchart}[%hgrid,
+		vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
+		time slot format=isodate-yearmonth,%
+		time slot unit=month,%
+		harvey radius=1.5mm,%
+		x unit = 0.2cm,%
+		y unit chart = 0.6cm,%
+		y unit title = 0.6cm,%
+		title height=1,%
+		bar height=.7,%
+		bar top shift=.15,%
+		newline shortcut=true,%
+		expand chart=\myroadmapwidth,%
+		include title in canvas=false%
+		]{#3}{#4}%
+	%\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
+}{\end{ganttchart}\end{center}%
+\ifdefined\standalone%
+\else%
+%LEGENDE
+\myroadmaplegend%
+\fi}%
+\endinput
