@@ -3,7 +3,7 @@
 % Vielleicht besser eine eigene documentclass roadmap?
 %% Ländercodes nach ISO ALPHA 2 http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2012:328:0007:0015:DE:PDF
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]%20201001
-\ProvidesPackage{myroadmap}[2023/12/12 Paket für Tech-Prod-Markt-Roadmaps von Dr. Bastian Ebeling]%
+\ProvidesPackage{myroadmap}[2024/06/04 Paket für Tech-Prod-Markt-Roadmaps von Dr. Bastian Ebeling]%
 \RequirePackage{calc}%
 \RequirePackage{mathabx}%https://www.sascha-frank.com/Arrow/latex-arrows.html
 \newlength{\myroadmapwidth}%
@@ -232,7 +232,7 @@
 	\else%
 	\begin{center}#2\end{center}%
 	\fi%
-	\begin{center}%
+	%\begin{center}%
 		%\hspace*{-275pt}
 		\begin{ganttchart}[%hgrid,
 		vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
@@ -250,7 +250,7 @@
 		include title in canvas=false%
 		]{#3}{#4}%
 	%\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
-}{\end{ganttchart}\end{center}%
+}{\end{ganttchart}%\end{center}%
 \ifdefined\standalone%
 \else%
 %LEGENDE
