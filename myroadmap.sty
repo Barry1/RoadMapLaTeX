@@ -128,16 +128,30 @@ name=#1]{#2}{#3-#4}{#3-{#4-1}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %http://www.texfaq.org/FAQ-twooptarg
 %http://www.texfaq.org/FAQ-moren9
-\ifdefined\standalone%
-\else%
-    %LEGENDE
-    \input{legendtypesetting.def}%
-\fi%
+\ifdefined\standalone\else\input{legendtypesetting.def}\fi%
 \newenvironment{bastiroadmap}[4][]{%
-    \setkeys{myroadmap}{#1}%
-    \setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
-    \ifdefined\standalone%
-    \begin{ganttchart}[%hgrid,
+\setkeys{myroadmap}{#1}%
+\setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
+\ifdefined\standalone%
+\begin{ganttchart}[%hgrid,
+vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
+time slot format=isodate-yearmonth,%
+time slot unit=month,%
+harvey radius=1.5mm,%
+x unit = 0.2cm,%
+y unit chart = 0.6cm,%
+y unit title = 0.6cm,%
+title height=1,%
+bar height=.7,%
+bar top shift=.15,%
+newline shortcut=true,%
+include title in canvas=false%
+]{#3}{#4}%
+\else%
+\begin{center}#2\end{center}%
+%\begin{center}
+%\hspace*{-275pt}
+\begin{ganttchart}[%hgrid,
     vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
     time slot format=isodate-yearmonth,%
     time slot unit=month,%
@@ -149,31 +163,13 @@ name=#1]{#2}{#3-#4}{#3-{#4-1}}}
     bar height=.7,%
     bar top shift=.15,%
     newline shortcut=true,%
+    %expand chart=\myroadmapwidth,%
     include title in canvas=false%
     ]{#3}{#4}%
-    \else%
-    \begin{center}#2\end{center}%
-    %\begin{center}
-    %\hspace*{-275pt}
-    \begin{ganttchart}[%hgrid,
-        vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
-        time slot format=isodate-yearmonth,%
-        time slot unit=month,%
-        harvey radius=1.5mm,%
-        x unit = 0.2cm,%
-        y unit chart = 0.6cm,%
-        y unit title = 0.6cm,%
-        title height=1,%
-        bar height=.7,%
-        bar top shift=.15,%
-        newline shortcut=true,%
-        %expand chart=\myroadmapwidth,%
-        include title in canvas=false%
-        ]{#3}{#4}%
-        \fi%
-        %\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
-}{%
-    \end{ganttchart}%\end{center}%
-    \ifdefined\standalone\else\par\myroadmaplegend\fi%
+    \fi%
+    %\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
+    }{%
+\end{ganttchart}%\end{center}%
+\ifdefined\standalone\else\par\myroadmaplegend\fi%
 }%
 \endinput
