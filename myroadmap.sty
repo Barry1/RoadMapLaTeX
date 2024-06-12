@@ -197,33 +197,6 @@ name=#1]{#2}{#3-#4}{#3-{#4-1}}}
     \hspace*{\myroadmappagediff/2}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\myroadmaplastlegend{\hspace*{\myroadmappagediff/2}\begin{center}%
-    \hspace*{\myroadmaplongestlabel}%
-    \begin{tabular}{lc|lc|lcp{1cm}lc}%
-        \multicolumn{2}{c|}{customer} & \multicolumn{2}{c|}{product} & \multicolumn{2}{c}{technology} &                            &                    &                                                                                  \\%
-        %1&2&X&3&4&X&5&6&X&7&8\\%
-        \cmidrule{1-6}%
-        core                          & \exCoreCust                  & marketing                      & \exProdMarket              & RnD                & \exRnD                     &  & fiscal year border & \exFiscYearBorder           \\%
-        backup                        & \exBackupCust                & development/servicing          & \exProdService             & post RnD           & \exPostRnD                 &  &                    &                             \\%
-        get-rate{@}EDC                & \exSellCust                  &                                &                            & integration        & \exHarveyTechInt           &  &                    &                             \\%
-        {order intake date}           & \tiny{\myroadmap@aedate}     & {information date}             & \tiny{\myroadmap@proddate} & {information date} & \tiny{\myroadmap@techdate} &  & creation date      & \tiny{\myroadmap@builddate} \\%
-    \end{tabular}
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\myroadmaplegendold{\begin{center}%
-        \hspace*{\myroadmappagediff/2}%\hspace*{\myroadmaplongestlabel}%
-        \begin{tabular}{|p{\myroadmaplongestlabel}|lrp{1cm}lrp{1cm}lr|}%
-             & CustomerGet-Rate{@}EDC & \exSellCust              &  & Technology-Integration        & \exHarveyTechInt           &  & Fiscal Year border            & \begin{tikzpicture}\draw[red,dashed] (0,0) -- (0,.4);\end{tikzpicture} %
-            \\%
-             & Product Marketing      & \exProdMarket            &  & Product Development/Servicing & \exProdService             &  & RnD                           & \exRnD                                                                 %
-            \\%
-             & CoreCustomer           & \exCoreCust              &  & BackupCustomer                & \exBackupCust              &  & creation date                 & \tiny{\myroadmap@builddate}                                            %
-            \\%
-             & {order intake date}    & \tiny{\myroadmap@aedate} &  & {product information date}    & \tiny{\myroadmap@proddate} &  & {technology information date} & \tiny{\myroadmap@techdate}                                             %
-        \end{tabular}%
-        \hspace*{\myroadmappagediff/2}%
-    \end{center}%
-}
 %http://www.texfaq.org/FAQ-twooptarg
 %http://www.texfaq.org/FAQ-moren9
 \newenvironment{bastiroadmap}[4][]{\setkeys{myroadmap}{#1}%
@@ -268,6 +241,6 @@ include title in canvas=false%
 \ifdefined\standalone%
 \else%
     %LEGENDE
-    \myroadmaplegend%
+    \par\myroadmaplegend%
 \fi}%
 \endinput
