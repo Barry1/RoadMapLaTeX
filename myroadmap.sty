@@ -180,40 +180,12 @@ name=#1]{#2}{#3-#4}{#3-{#4-1}}}
     \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\myroadmaplegend{%\rule{\myroadmappagediff/2}{130pt}%
-    \hspace*{\myroadmappagediff/2}%
-    \@ifundefined{@gtt@chart@0@extrasize}{%
-        \@gtt@PackageWarning{taken 50 pt as initial guess}%
-        \hspace*{50pt}%label width in front of box
-    }{%
-        \hspace*{\@nameuse{@gtt@chart@0@extrasize}}%label width in front of box
-    }%
-    %\begin{center}%
-    \begin{tabular}{lc|lc|lc}%
-        \multicolumn{2}{c|}{customer} & \multicolumn{2}{c|}{product} & \multicolumn{2}{c}{technology}                                                                                                                  \\%
-        %1&2&X&3&4&X&5&6&X&7&8\\%
-        \midrule%
-        core                          & \exCoreCust                  & marketing                           & \exProdMarket                                           & RnD                & \exRnD                     \\%
-        backup                        & \exBackupCust                & development/servicing               & \exProdService                                          & post RnD           & \exPostRnD                 \\%
-        get-rate{@}EDC                & \exSellCust                  & \rotatebox[origin=c]{180}{\(\Rsh\)} & \multicolumn{1}{r|}{\rotatebox[origin=c]{90}{\(\Rsh\)}} & integration        & \exHarveyTechInt           \\%
-        %		&\multicolumn{1}{c}{get-rate{@}EDC}&\multicolumn{1}{c}{\exSellCust}&\multicolumn{1}{c}{\exHarveyTechInt}&\multicolumn{1}{c}{integration}&\\%
-        {order intake date}           & \tiny{\myroadmap@aedate}     & {information date}                  & \tiny{\myroadmap@proddate}                              & {information date} & \tiny{\myroadmap@techdate} \\%
-    \end{tabular}
-    \hfill%
-    \begin{tabular}{lc}%
-        fiscal year border & \exFiscYearBorder           \\%
-        \\
-        state              & {\myroadmap@state}          \\
-        creation date      & \tiny{\myroadmap@builddate} \\
-        %text&\the\textwidth\\
-        %page&\the\paperwidth\\
-        %rm&\the\myroadmapwidth\\
-        %diff&\the\myroadmappagediff
-    \end{tabular}%
-    %\end{center}%
-    %\rule{\myroadmappagediff/2}{130pt}%
-    \hspace*{\myroadmappagediff/2}%
-}
+\input{legendtypesetting.def}%
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %http://www.texfaq.org/FAQ-twooptarg
 %http://www.texfaq.org/FAQ-moren9
