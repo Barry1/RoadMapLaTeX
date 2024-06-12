@@ -90,7 +90,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % idea for Inline, line and progress <https://tex.stackexchange.com/q/403126>
 \newcommand*{\placeTech}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{TechnologyColor},rounded corners=1mm}]{#2}{#3}{#4}}
-\newcommand*{\placePostTech}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
+\newcommand*{\placePostTech}[4]{\ganttbar[name=#1,inline,bar label font=\footnotesize,bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
 \newcommand*{\placeProdDevSer}[4]{\ganttbar[name=#1,inline,bar label font=\footnotesize,bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
 \newcommand*{\placeProd}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{#2}{#3}{#4}}
 \newcommand*{\placeCust}[4]{\ganttbar[inline=true,
