@@ -1,0 +1,13 @@
+% https://brandfactory.thyssenkrupp.info/basiselemente/farben/
+\definecolor{myBrandBlue}{RGB}{0,160,245}%
+\definecolor{myOrange}{RGB}{255,180,000}%
+\definecolor{myDarkBlue}{RGB}{0,60,125}%
+\definecolor{myMediumBlue}{RGB}{0,85,190}%
+\definecolor{myDarkBlue}{RGB}{0,120,220}%
+\definecolor{myBrightBlue}{RGB}{80,175,225}%
+\definecolor{myLightBlue}{RGB}{115,195,240}%
+\definecolor{myLightGray}{RGB}{238,240,242}%
+\definecolor{myGray}{RGB}{217,222,232}%
+\definecolor{myMediumGray}{RGB}{120,135,155}%
+\definecolor{myDarkGray}{RGB}{75,85,100}%
+\definecolor{myBlack}{RGB}{0,0,0}%
