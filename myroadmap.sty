@@ -29,16 +29,17 @@
 %\PassOptionsToPackage{svgnames}{xcolor}
 %https://tex.stackexchange.com/questions/74805/latex-error-option-clash-for-package-xcolor
 \RequirePackage{keyval}%
+\define@key{myroadmap}{font}{\def\myroadmap@font{#1}}%
 \define@key{myroadmap}{aedate}{\def\myroadmap@aedate{#1}}%
 \define@key{myroadmap}{proddate}{\def\myroadmap@proddate{#1}}%
 \define@key{myroadmap}{techdate}{\def\myroadmap@techdate{#1}}%
 \define@key{myroadmap}{builddate}{\def\myroadmap@builddate{#1}}%
 \define@key{myroadmap}{state}{\def\myroadmap@state{#1}}%
 \define@key{myroadmap}{roadmapwidth}{\setlength{\myroadmapwidth}{#1}}%
-\setkeys{myroadmap}{aedate={\today}, proddate={\today}, techdate={\today}, builddate={\today},roadmapwidth={\linewidth},state={release}}%
+\setkeys{myroadmap}{font={Arial}, aedate={\today},proddate={\today}, techdate={\today}, builddate={\today},roadmapwidth={\linewidth},state={release}}%
 \AtBeginDocument{%
-    \setmainfont[Mapping=tex-text]{Linotype Univers}%
-    \newfontfamily\mySYMBOLfont{Cambria Math}%
+    \setmainfont[Mapping=tex-text]{\myroadmap@font}%{Linotype Univers}%
+    %\newfontfamily\mySYMBOLfont{Cambria Math}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf
