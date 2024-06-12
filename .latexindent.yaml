@@ -1,4 +1,9 @@
 ---
 defaultIndent: "    "
+# following not yet working, just test
+#indentRules:
+#  ganttbar:
+#    body: "\t"
+#    optionalArguments: "     "
+#    mandatoryArguments: "\t\t"
 ---
-
