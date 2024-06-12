@@ -18,3 +18,11 @@
 \definecolor{rsBlue5}{RGB}{0,17,48}%
 \definecolor{rsSilver}{RGB}{165,170,175}%
 \definecolor{rsCyan}{RGB}{0,159,227}%
+\definecolor{rsVividOrange}{RGB}{234,91,12}%
+\definecolor{rsDarkRed}{RGB}{165,15,20}%
+\definecolor{rsDarkCyan}{RGB}{0,121,115}%
+\definecolor{rsDeepVermillion}{RGB}{122,44,0}%
+\definecolor{rsOliveGreen}{RGB}{121,142,12}%
+\definecolor{rsCyan2}{RGB}{161,218,248}%
+\definecolor{rsCyan3}{RGB}{212,237,252}%
+\definecolor{rsSilver2}{RGB}{231,231,231}%
