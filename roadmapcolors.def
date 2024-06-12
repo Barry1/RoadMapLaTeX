@@ -11,3 +11,10 @@
 \definecolor{myMediumGray}{RGB}{120,135,155}%
 \definecolor{myDarkGray}{RGB}{75,85,100}%
 \definecolor{myBlack}{RGB}{0,0,0}%
+\definecolor{rsBlue1}{RGB}{0,60,116}%
+\definecolor{rsBlue2}{RGB}{0,48,95}%
+\definecolor{rsBlue3}{RGB}{0,39,81}%
+\definecolor{rsBlue4}{RGB}{0,29,65}%
+\definecolor{rsBlue5}{RGB}{0,17,48}%
+\definecolor{rsSilver}{RGB}{165,170,175}%
+\definecolor{rsCyan}{RGB}{0,159,227}%
