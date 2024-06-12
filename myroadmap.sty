@@ -108,60 +108,6 @@ bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof
 name=#1]{#2}{#3-#4}{#3-{#4-1}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % expl. Harvey TechIntegration
-\def\exHarveyTechInt{%
-    \begin{tikzpicture}%
-        \fill[\ganttvalueof{TechnologyColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-200] -- cycle;%
-        \draw (0,0) circle [radius=2mm];%
-    \end{tikzpicture}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% expl. Harvey Customer
-\def\exSellCust{%
-    \begin{tikzpicture}%
-        \fill[\ganttvalueof{ProjectColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-150] -- cycle;%
-        \draw (0,0) circle [radius=2mm];%
-    \end{tikzpicture}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\exRnD{%
-    \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor},rounded corners=1mm}]{}{1}{2}%
-    \end{ganttchart}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\exPostRnD{%
-    \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{}{1}{2}%
-    \end{ganttchart}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\exProdMarket{%
-    \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{}{1}{2}%
-    \end{ganttchart}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\exProdService{%
-    \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{}{1}{2}%
-    \end{ganttchart}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\exCoreCust{%
-    \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
-        \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor},draw=none, rounded corners=1mm}]{nation}{1}{1}%
-    \end{ganttchart}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\exBackupCust{%
-    \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
-        \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40,draw=none, rounded corners=1mm}]{nation}{1}{1}%
-    \end{ganttchart}%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\exFiscYearBorder{%
-    \begin{tikzpicture}\draw[red,dashed] (0,0) -- (0,.4);\end{tikzpicture}%
-}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newganttlinktype{harveySellProd}{%
     \ganttsetendanchor{on bottom=0.5}%
@@ -180,37 +126,18 @@ name=#1]{#2}{#3-#4}{#3-{#4-1}}}
     \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{legendtypesetting.def}%
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %http://www.texfaq.org/FAQ-twooptarg
 %http://www.texfaq.org/FAQ-moren9
-\newenvironment{bastiroadmap}[4][]{\setkeys{myroadmap}{#1}%
-\setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
 \ifdefined\standalone%
-\begin{ganttchart}[%hgrid,
-vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
-time slot format=isodate-yearmonth,%
-time slot unit=month,%
-harvey radius=1.5mm,%
-x unit = 0.2cm,%
-y unit chart = 0.6cm,%
-y unit title = 0.6cm,%
-title height=1,%
-bar height=.7,%
-bar top shift=.15,%
-newline shortcut=true,%
-include title in canvas=false%
-]{#3}{#4}%
 \else%
-\begin{center}#2\end{center}%
-%\begin{center}
-%\hspace*{-275pt}
-\begin{ganttchart}[%hgrid,
+    %LEGENDE
+    \input{legendtypesetting.def}%
+\fi%
+\newenvironment{bastiroadmap}[4][]{%
+    \setkeys{myroadmap}{#1}%
+    \setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
+    \ifdefined\standalone%
+    \begin{ganttchart}[%hgrid,
     vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
     time slot format=isodate-yearmonth,%
     time slot unit=month,%
@@ -222,15 +149,31 @@ include title in canvas=false%
     bar height=.7,%
     bar top shift=.15,%
     newline shortcut=true,%
-    %expand chart=\myroadmapwidth,%
     include title in canvas=false%
     ]{#3}{#4}%
-    \fi%
-    %\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
-    }{\end{ganttchart}%\end{center}%
-\ifdefined\standalone%
-\else%
-    %LEGENDE
-    \par\myroadmaplegend%
-\fi}%
+    \else%
+    \begin{center}#2\end{center}%
+    %\begin{center}
+    %\hspace*{-275pt}
+    \begin{ganttchart}[%hgrid,
+        vgrid={*5{draw=none},{red,dashed},*6{draw=none}},%
+        time slot format=isodate-yearmonth,%
+        time slot unit=month,%
+        harvey radius=1.5mm,%
+        x unit = 0.2cm,%
+        y unit chart = 0.6cm,%
+        y unit title = 0.6cm,%
+        title height=1,%
+        bar height=.7,%
+        bar top shift=.15,%
+        newline shortcut=true,%
+        %expand chart=\myroadmapwidth,%
+        include title in canvas=false%
+        ]{#3}{#4}%
+        \fi%
+        %\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
+}{%
+    \end{ganttchart}%\end{center}%
+    \ifdefined\standalone\else\par\myroadmaplegend\fi%
+}%
 \endinput
