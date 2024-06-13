@@ -14,7 +14,7 @@
 %\addtolength{\myroadmapwidth}{-60mm}%
 \RequirePackage{fontspec}%
 \RequirePackage{booktabs}%
-\RequirePackage{pgfgantt}%
+\RequirePackage{pgfgantt}%https://texdoc.org/serve/pgfgantt/0
 \input{roadmapcolors.def}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \@gtt@keydef{TechnologyColor}{myOrange}%
@@ -60,27 +60,22 @@
 %https://www.namsu.de/Extra/pakete/Xcolor.html
 %https://www.ctan.org/tex-archive/macros/latex/contrib/xcolor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\roadmaplayer#1{\ganttgroup{#1}{\ganttvalueof{roadmap start}}{\ganttvalueof{roadmap end}}\\}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \@gtt@keydef{harvey percent}{25}%
 \@gtt@keydef{harvey radius}{1mm}%
 \@gtt@keydef{harvey color}{black}%
-%\makeatother
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TikZ commands to draw a harvey ball at coordinate #1 with a percentage of #2
-\def\drawharveyball#1#2{
-    \pgfmathsetmacro\harveyangle{90 - 360 * (#2 / 100)}
-    \fill[white]
-    (#1) --
-    ++(\harveyangle:\ganttvalueof{harvey radius})
-    arc [radius=\ganttvalueof{harvey radius}, start angle=\harveyangle, end angle=-270] --
-    cycle;
-    \fill[\ganttvalueof{harvey color}]
-    (#1) --
-    ++(90:\ganttvalueof{harvey radius})
-    arc [radius=\ganttvalueof{harvey radius}, start angle=90, end angle=\harveyangle] --
-    cycle;
-    \draw
-    (#1) circle [radius=\ganttvalueof{harvey radius}];
+\def\drawharveyball#1#2{%
+    \pgfmathsetmacro\harveyangle{90 - 360 * (#2 / 100)}%
+    \fill[white]%
+    (#1) -- ++(\harveyangle:\ganttvalueof{harvey radius})%
+    arc [radius=\ganttvalueof{harvey radius}, start angle=\harveyangle, end angle=-270] -- cycle;%
+    \fill[\ganttvalueof{harvey color}]%
+    (#1) -- ++(90:\ganttvalueof{harvey radius})%
+    arc [radius=\ganttvalueof{harvey radius}, start angle=90, end angle=\harveyangle] -- cycle;%
+    \draw (#1) circle [radius=\ganttvalueof{harvey radius}];%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % use this chart element to specify (invisible) coordinates for Harvey links
@@ -129,6 +124,8 @@ name=#1]{#2}{#3-#4}{#3-{#4-1}}}
 %http://www.texfaq.org/FAQ-moren9
 \ifdefined\standalone\else\input{legendtypesetting.def}\fi%
 \newenvironment{bastiroadmap}[4][]{%
+\@gtt@keydef{roadmap start}{#3}%
+\@gtt@keydef{roadmap end}{#4}%
 \setkeys{myroadmap}{#1}%
 \setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
 \ifdefined\standalone%
