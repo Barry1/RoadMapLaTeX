@@ -46,7 +46,10 @@
     techdate={\today},%
 }%
 \AtBeginDocument{%
-    \setmainfont[Ligatures=TeX]{\myroadmap@font}%Ligatures=TeX equivalent to Mapping=tex-text but more compatible https://texdoc.org/serve/fontspec/0 page 59 1.1
+    \IfFontExistsTF{\myroadmap@font}{\setmainfont{\myroadmap@font}}{}%
+    %Ligatures=TeX is default
+    %Ligatures=TeX equivalent to Mapping=tex-text but more compatible
+    %https://texdoc.org/serve/fontspec/0 page 59 1.1
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf
