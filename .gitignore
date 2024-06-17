@@ -1,2 +1,5 @@
 *.bak*
 indent.log
+exampleRoadmap.aux
+exampleRoadmap.log
+exampleRoadmap.pdf
