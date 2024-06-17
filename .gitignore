@@ -1,5 +1,8 @@
+*.aux
 *.bak*
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.xdv
 indent.log
-exampleRoadmap.aux
-exampleRoadmap.log
-exampleRoadmap.pdf
