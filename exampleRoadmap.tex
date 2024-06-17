@@ -1,0 +1,77 @@
+%\documentclass[landscape,paper=a1]{scrartcl}
+\documentclass[tikz, margin=5mm]{standalone}
+%\documentclass[preview]{standalone}
+%latexmk -xelatex -l -time -verbose test.tex
+%chktex test.tex
+%\documentclass[tikz]{standalone}
+\usepackage{myroadmap}%
+\begin{document}%
+\begin{bastiroadmap}[font={Linotype Univers}]{Example Roadmap}{2023-12}{2042-12} % chktex 8
+	\placeCust{CustX}{X}{2025}{07}%
+	\placeCust{CustZ}{Z}{2026}{7}%
+	\placeBackupCust{CustY}{Y}{2027}{03}\\%
+	\gantttitlecalendar{year}\\%
+	\roadmaplayer{Customer Projects}%
+	\placeProd{a}{Project A}{2023-12}{2025-12}\\ % chktex 8
+	\placeProd{b}{Project B}{2024-03}{2035-05} % chktex 8
+	\ganttnewline[very thick, magenta]
+	\roadmaplayer{System Layer}%
+	\placeProd{n}{abc}{2024-02}{2029-10}\\ % chktex 8
+	\placeProd{m}{def}{2024-02}{2029-10}\\ % chktex 8
+	\placeProd{gg}{Submarine}{2025-01}{2029-10}\\ % chktex 8	
+	\placeProd{s}{ghi}{2024-02}{2029-10}\\ % chktex 8
+	\placeProd{t}{jkl}{2024-02}{2029-10}\\ % chktex 8
+	\placeProd{u}{mno}{2024-02}{2029-10} % chktex 8
+	\ganttnewline[very thick, yellow]%
+	\roadmaplayer{Building Block 1}%
+	\placeProd{v}{pqr}{2024-01}{2040-06}\\ % chktex 8
+	\placeProd{w}{stu}{2024-01}{2026-06}\\ % chktex 8
+	\placeTech{j}{vwx}{2028-01}{2040-06} % chktex 8
+	\ganttnewline[very thick, blue]
+	\roadmaplayer{Building Block 2}%
+	\placeProd{k}{j}{2024-01}{2040-06}\\ % chktex 8
+	\placeProd{l}{yza}{2024-01}{2040-06}\\ % chktex 8
+	\placeTech{o}{bcd}{2024-01}{2040-06} % chktex 8
+	\ganttnewline[very thick, blue]
+	\roadmaplayer{Building Block 3}%
+	\placeProd{p}{efg}{2024-01}{2029-12} % chktex 8
+	\placeProdDevSer{lmn}{lmn}{2030-01}{2036-12} % chktex 8
+	\placeProdDevSer{opq}{opq}{2037-01}{2041-12}\\ % chktex 8
+	\placeProdDevSer{rst}{rst}{2023-07}{2026-03}\\ % chktex 8
+	\placeProdDevSer{uvw}{uvw}{2022-12}{2025-12} % chktex 8
+	\placeProdDevSer{xyz}{xyz}{2026-01}{2026-12}\\ % chktex 8
+	\placeProdDevSer{h}{aaaa}{2024-06}{2026-04} % chktex 8
+	\placeProdDevSer{i}{bbbb}{2026-05}{2028-12} % chktex 8
+	\placeProd{c}{hij}{2029-01}{2049-12} % chktex 8
+	\ganttnewline[very thick, magenta]%
+	\roadmaplayer{Building Block 4}%
+	\placeProd{d}{klm}{2024-01}{2033-12} % chktex 8
+	\placeProdDevSer{cccc}{cccc}{2034-01}{2044-12}\\ % chktex 8
+	\placeProdDevSer{dddd}{dddd}{2025-01}{2028-12} % chktex 8
+	\placeProdDevSer{ee}{ee}{2029-01}{2031-12} % chktex 8
+	\placeProd{e}{nop}{2032-01}{2049-12}\\ % chktex 8
+	\placeTech{f}{qrs}{2024-07}{2024-12}\\ % chktex 8
+	\placeTech{g}{tuv}{2024-10}{2027-06} % chktex 8
+	\ganttnewline[very thick, magenta]
+	\roadmaplayer{Technology layer}%
+	\placeTech{q}{wxy}{2024-02}{2026-10}\\ % chktex 8
+	\placeTech{aa}{zab}{2024-02}{2025-10} % chktex 8
+	\placePostTech{bb}{cde}{2025-11}{2026-10} \\ % chktex 8
+	\placeTech{cc}{fgh}{2024-02}{2027-03}\\ % chktex 8
+	\placeTech{dd}{ijk}{2024-02}{2027-03} % chktex 8
+	% =========================================================================================================================
+	%Kunden auf Solutions
+	\ganttlink[link type=harveySellProd,harvey percent=80]{n}{CustX}
+	\ganttlink[link type=harveySellProd,harvey percent=31]{n}{CustY}
+	%Technologien in Solutions
+	\ganttlink[link type=harveyImplementTech,harvey percent=80]{q}{v}
+	\ganttlink[link type=harveyImplementTech,harvey percent=99]{h}{ee}
+	\ganttlink[link type=harveyImplementTech,harvey percent=99]{i}{ee}
+	\ganttlink[link type=harveyImplementTech,harvey percent=80]{i}{v}
+	\ganttlink[link type=harveyImplementTech,harvey percent=80]{ee}{v}
+	\ganttlink[link type=harveyImplementTech,harvey percent=95]{f}{d}
+	\ganttlink[link type=harveyImplementTech,harvey percent=95]{g}{d}
+	\ganttlink[link type=harveyImplementTech,harvey percent=95]{a}{u}
+	\ganttlink[link type=harveyImplementTech,harvey percent=95]{a}{m}
+\end{bastiroadmap}%
+\end{document}
