@@ -37,13 +37,13 @@
 \define@key{myroadmap}{state}{\def\myroadmap@state{#1}}%
 \define@key{myroadmap}{techdate}{\def\myroadmap@techdate{#1}}%
 \setkeys{myroadmap}{%
-    aedate={\today},%
-    builddate={\today},%
-    font={Arial},%
-    proddate={\today},%
-    roadmapwidth={\linewidth},%
-    state={release}%
-    techdate={\today},%
+aedate={\today},%
+builddate={\today},%
+font={Arial},%
+proddate={\today},%
+roadmapwidth={\linewidth},%
+state={release}%
+techdate={\today},%
 }%
 \AtBeginDocument{%
     \IfFontExistsTF{\myroadmap@font}{\setmainfont{\myroadmap@font}}{}%
