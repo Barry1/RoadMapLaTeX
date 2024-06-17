@@ -47,6 +47,7 @@
 }%
 \AtBeginDocument{%
     \IfFontExistsTF{\myroadmap@font}{\setmainfont{\myroadmap@font}}{}%
+    %\font\nullfont=cmr10%shows problem with missing characters in \nullfont
     %Ligatures=TeX is default
     %Ligatures=TeX equivalent to Mapping=tex-text but more compatible
     %https://texdoc.org/serve/fontspec/0 page 59 1.1
