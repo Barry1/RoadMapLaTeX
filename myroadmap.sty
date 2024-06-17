@@ -88,19 +88,23 @@
 \newcommand*{\placeProdDevSer}[4]{\ganttbar[name=#1,inline,bar label font=\footnotesize,bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
 \newcommand*{\placeProd}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{#2}{#3}{#4}}
 \newcommand*{\placeCust}[4]{%
-\ganttbar[inline=true,%
-bar height=0.9,%
-bar top shift=0.05,%
-bar/.append style={draw=none},%
-bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}, rounded corners=2mm},%
-name=#1]{#2}{#3-#4}{#3-#4}%
+    \ganttbar[inline=true,%
+        bar height=0.9,%
+        bar top shift=0.05,%
+        bar/.append style={draw=none},%
+        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}, rounded corners=2mm},%
+        name=#1]%
+    {#2}{#3-#4}{#3-#4}%
+}%
+\newcommand*{\placeBackupCust}[4]{%
+    \ganttbar[inline=true,%
+        bar height=0.9,%
+        bar top shift=0.05,%
+        bar/.append style={draw=none},%
+        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40, rounded corners=2mm},%
+        name=#1]%
+    {#2}{#3-#4}{#3-#4}%
 }
-\newcommand*{\placeBackupCust}[4]{\ganttbar[inline=true,
-bar height=0.9,
-bar top shift=0.05,
-bar/.append style={draw=none},
-bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40, rounded corners=2mm},
-name=#1]{#2}{#3-#4}{#3-#4}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % expl. Harvey TechIntegration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
