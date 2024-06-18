@@ -17,7 +17,7 @@ jobs:
         run: |
           sudo apt-get install apt-file
           sudo apt-file update
-          apt-file search standalone.cls
+          apt-file search mathabx.sty
       - name: Compile exampleRoadmap
         run: |
           git checkout --orphan exampleoutput
