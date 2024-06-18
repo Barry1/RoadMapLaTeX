@@ -22,7 +22,7 @@ GITHUB_SVG_UPDATE:
 	git checkout --orphan exampleoutput
 	make exampleRoadmap.svg
 	git add -f exampleRoadmap.svg
-	git commit -m "exampleRoadmap created" exampleRoadmap.svg
+	git commit -m "exampleRoadmap updated" exampleRoadmap.svg
 	git push --set-upstream origin exampleoutput
 	git checkout main
 	git branch -D exampleoutput
