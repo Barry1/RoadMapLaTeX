@@ -23,6 +23,6 @@ GITHUB_SVG_UPDATE:
 	make exampleRoadmap.svg
 	git add -f exampleRoadmap.svg
 	git commit -m "exampleRoadmap updated" exampleRoadmap.svg
-	git push --set-upstream origin exampleoutput
+	git push --force --set-upstream origin exampleoutput
 	git checkout main
 	git branch -D exampleoutput
