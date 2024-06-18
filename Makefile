@@ -8,3 +8,6 @@ PRETTY: myroadmap.sty legendtypesetting.def exampleRoadmap.tex roadmapcolors.def
 
 %.pdf %.fls %.log %.aux %.xdv %.fdb_latexmk::%.tex myroadmap.sty
 	latexmk -pdfxe $<
+
+%.svg : %.pdf
+	pdf2svg $<
