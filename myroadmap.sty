@@ -37,13 +37,13 @@
 \define@key{myroadmap}{state}{\def\myroadmap@state{#1}}%
 \define@key{myroadmap}{techdate}{\def\myroadmap@techdate{#1}}%
 \setkeys{myroadmap}{%
-aedate={\today},%
-builddate={\today},%
-font={Arial},%
-proddate={\today},%
-roadmapwidth={\linewidth},%
-state={release}%
-techdate={\today},%
+    aedate={\today},%
+    builddate={\today},%
+    font={Arial},%
+    proddate={\today},%
+    roadmapwidth={\linewidth},%
+    state={release}%
+    techdate={\today},%
 }%
 \AtBeginDocument{%
     \IfFontExistsTF{\myroadmap@font}{\setmainfont{\myroadmap@font}}{}%
@@ -83,12 +83,41 @@ techdate={\today},%
 \newganttchartelement*{harveyanchor}{harveyanchor/.style={shape=ganttbar}}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % idea for Inline, line and progress <https://tex.stackexchange.com/q/403126>
-\newcommand*{\placeTech}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{TechnologyColor},rounded corners=1mm}]{#2}{#3}{#4}}
-\newcommand*{\placePostTech}[4]{\ganttbar[name=#1,inline,bar label font=\footnotesize,bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
-\newcommand*{\placeProdDevSer}[4]{\ganttbar[name=#1,inline,bar label font=\footnotesize,bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{#2}{#3}{#4}}
-\newcommand*{\placeProd}[4]{\ganttbar[name=#1,bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{#2}{#3}{#4}}
+\newcommand*{\placeTech}[4]{%
+    \ganttbar[%
+        name=#1,%
+        bar/.append style={fill=\ganttvalueof{TechnologyColor},%
+        rounded corners=1mm}%
+    ]{#2}{#3}{#4}%
+}%
+\newcommand*{\placePostTech}[4]{%
+    \ganttbar[%
+        name=#1,%
+        inline,%
+        bar label font=\footnotesize,%
+        bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,%
+        rounded corners=1mm}%
+    ]{#2}{#3}{#4}%
+}%
+\newcommand*{\placeProdDevSer}[4]{%
+    \ganttbar[%
+        name=#1,%
+        inline,%
+        bar label font=\footnotesize,%
+        bar/.append style={fill=\ganttvalueof{ProductColor}!40,%
+        rounded corners=1mm}%
+    ]{#2}{#3}{#4}%
+}%
+\newcommand*{\placeProd}[4]{%
+    \ganttbar[%
+        name=#1,%
+        bar/.append style={fill=\ganttvalueof{ProductColor},%
+        rounded corners=1mm}%
+    ]{#2}{#3}{#4}%
+}%
 \newcommand*{\placeCust}[4]{%
-    \ganttbar[inline=true,%
+    \ganttbar[%
+        inline=true,%
         bar height=0.9,%
         bar top shift=0.05,%
         bar/.append style={draw=none},%
@@ -97,14 +126,15 @@ techdate={\today},%
     {#2}{#3-#4}{#3-#4}%
 }%
 \newcommand*{\placeBackupCust}[4]{%
-    \ganttbar[inline=true,%
+    \ganttbar[%
+        inline=true,%
         bar height=0.9,%
         bar top shift=0.05,%
         bar/.append style={draw=none},%
         bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40, rounded corners=2mm},%
         name=#1]%
     {#2}{#3-#4}{#3-#4}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % expl. Harvey TechIntegration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,7 +144,7 @@ techdate={\today},%
     \ganttset{harvey color=\ganttvalueof{ProjectColor}}%
     \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
     \draw [thick, ->,myMediumGray] (\xRight, \yUpper+\ganttvalueof{harvey radius}) -- (\xRight, \yLower);%-1mm%in draw[\ganttvalueof{ProductColor}]
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newganttlinktype{harveyImplementTech}{%
     %\ganttsetstartanchor{on top=0.5}
@@ -123,54 +153,54 @@ techdate={\today},%
     \draw [thick, ->,myMediumGray] (\xLeft, \yUpper) -- (\xLeft, \yLower-\ganttvalueof{harvey radius});%in draw[\ganttvalueof{ProductColor}]
     \ganttset{harvey color=\ganttvalueof{TechnologyColor}}%
     \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %http://www.texfaq.org/FAQ-twooptarg
 %http://www.texfaq.org/FAQ-moren9
 \ifdefined\standalone\else\input{legendtypesetting.def}\fi%
 \newenvironment{bastiroadmap}[4][]{%
-\@gtt@keydef{roadmap start}{#3}%
-\@gtt@keydef{roadmap end}{#4}%
-\setkeys{myroadmap}{#1}%
-\setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
-\ifdefined\standalone%
-\begin{ganttchart}[%hgrid,
-vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},%
-time slot format=isodate-yearmonth,%
-time slot unit=month,%
-harvey radius=1.5mm,%
-x unit = 0.2cm,%
-y unit chart = 0.6cm,%
-y unit title = 0.6cm,%
-title height=1,%
-bar height=.7,%
-bar top shift=.15,%
-newline shortcut=true,%
-include title in canvas=false%
-]{#3}{#4}%
-\else%
-\begin{center}#2\end{center}%
-%\begin{center}
-%\hspace*{-275pt}
-\begin{ganttchart}[%hgrid,
-    vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},%
-    time slot format=isodate-yearmonth,%
-    time slot unit=month,%
-    harvey radius=1.5mm,%
-    x unit = 0.2cm,%
-    y unit chart = 0.6cm,%
-    y unit title = 0.6cm,%
-    title height=1,%
-    bar height=.7,%
-    bar top shift=.15,%
-    newline shortcut=true,%
-    %expand chart=\myroadmapwidth,%
-    include title in canvas=false%
-    ]{#3}{#4}%
-    \fi%
-    %\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
-    }{%
-\end{ganttchart}%\end{center}%
-\ifdefined\standalone\else\par\myroadmaplegend\fi%
+    \@gtt@keydef{roadmap start}{#3}%
+    \@gtt@keydef{roadmap end}{#4}%
+    \setkeys{myroadmap}{#1}%
+    \setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
+    \ifdefined\standalone%
+        \begin{ganttchart}[%hgrid,
+        vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},%
+        time slot format=isodate-yearmonth,%
+        time slot unit=month,%
+        harvey radius=1.5mm,%
+        x unit = 0.2cm,%
+        y unit chart = 0.6cm,%
+        y unit title = 0.6cm,%
+        title height=1,%
+        bar height=.7,%
+        bar top shift=.15,%
+        newline shortcut=true,%
+        include title in canvas=false%
+        ]{#3}{#4}%
+    \else%
+        \begin{center}#2\end{center}%
+        %\begin{center}
+        %\hspace*{-275pt}
+        \begin{ganttchart}[%hgrid,
+            vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},%
+            time slot format=isodate-yearmonth,%
+            time slot unit=month,%
+            harvey radius=1.5mm,%
+            x unit = 0.2cm,%
+            y unit chart = 0.6cm,%
+            y unit title = 0.6cm,%
+            title height=1,%
+            bar height=.7,%
+            bar top shift=.15,%
+            newline shortcut=true,%
+            %expand chart=\myroadmapwidth,%
+            include title in canvas=false%
+            ]{#3}{#4}%
+            \fi%
+            %\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
+}{%
+    \end{ganttchart}%\end{center}%
+    \ifdefined\standalone\else\par\myroadmaplegend\fi%
 }%
 \endinput
