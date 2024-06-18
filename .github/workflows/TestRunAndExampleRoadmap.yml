@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Install TeXlive
         run: sudo apt-get update && sudo apt-get install latexmk
-        - name: Compile exampleRoadmap
+      - name: Compile exampleRoadmap
         run: latexmk -help
-        - name: Compile exampleRoadmap
+      - name: Compile exampleRoadmap
         run: |
           git checkout --orphan exampleoutput
           git config --global user.name "Dr. Bastian Ebeling"
