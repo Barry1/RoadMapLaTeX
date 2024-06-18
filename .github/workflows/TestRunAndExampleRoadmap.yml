@@ -5,6 +5,8 @@ jobs:
     name: TestJob
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
       - name: list directory
         run: |
           git checkout --orphan exampleoutput
