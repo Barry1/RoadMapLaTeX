@@ -7,6 +7,7 @@ on:
 jobs:
   my_job:
     name: TestJob
+    # inspired by <https://archive.ph/8Qidh>
     permissions:
       contents: write
     runs-on: ubuntu-latest
