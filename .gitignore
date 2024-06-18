@@ -4,5 +4,6 @@
 *.fls
 *.log
 *.pdf
+*.svg
 *.xdv
 indent.log
