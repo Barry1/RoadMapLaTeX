@@ -4,7 +4,7 @@
         \fill[\ganttvalueof{TechnologyColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-200] -- cycle;%
         \draw (0,0) circle [radius=2mm];%
     \end{tikzpicture}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % expl. Harvey Customer
 \def\exSellCust{%
@@ -12,47 +12,49 @@
         \fill[\ganttvalueof{ProjectColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-150] -- cycle;%
         \draw (0,0) circle [radius=2mm];%
     \end{tikzpicture}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exRnD{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
         \ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor},rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exPostRnD{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
         \ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exProdMarket{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
         \ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exProdService{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
         \ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exCoreCust{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
         \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor},draw=none, rounded corners=1mm}]{nation}{1}{1}%
     \end{ganttchart}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exBackupCust{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
         \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40,draw=none, rounded corners=1mm}]{nation}{1}{1}%
     \end{ganttchart}%
-}
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exFiscYearBorder{%
-    \begin{tikzpicture}\draw[red,dashed] (0,0) -- (0,.4);\end{tikzpicture}%
-}
+    \begin{tikzpicture}%
+        \draw[red,dashed] (0,0) -- (0,.4);%
+    \end{tikzpicture}%
+}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\myroadmaplegend{%\rule{\myroadmappagediff/2}{130pt}%
     \hspace*{\myroadmappagediff/2}%
@@ -72,19 +74,19 @@
         get-rate{@}EDC                & \exSellCust                  & \rotatebox[origin=c]{180}{\(\Rsh\)} & \multicolumn{1}{r|}{\rotatebox[origin=c]{90}{\(\Rsh\)}} & integration        & \exHarveyTechInt           \\%
         %		&\multicolumn{1}{c}{get-rate{@}EDC}&\multicolumn{1}{c}{\exSellCust}&\multicolumn{1}{c}{\exHarveyTechInt}&\multicolumn{1}{c}{integration}&\\%
         {order intake date}           & \tiny{\myroadmap@aedate}     & {information date}                  & \tiny{\myroadmap@proddate}                              & {information date} & \tiny{\myroadmap@techdate} \\%
-    \end{tabular}
+    \end{tabular}%
     \hfill%
     \begin{tabular}{lc}%
         fiscal year border & \exFiscYearBorder           \\%
-        \\
-        state              & {\myroadmap@state}          \\
-        creation date      & \tiny{\myroadmap@builddate} \\
-        %text&\the\textwidth\\
-        %page&\the\paperwidth\\
-        %rm&\the\myroadmapwidth\\
-        %diff&\the\myroadmappagediff
+        \\%
+        state              & {\myroadmap@state}          \\%
+        creation date      & \tiny{\myroadmap@builddate} \\%
+        %text&\the\textwidth\\%
+        %page&\the\paperwidth\\%
+        %rm&\the\myroadmapwidth\\%
+        %diff&\the\myroadmappagediff%
     \end{tabular}%
     %\end{center}%
     %\rule{\myroadmappagediff/2}{130pt}%
     \hspace*{\myroadmappagediff/2}%
-}
+}%
