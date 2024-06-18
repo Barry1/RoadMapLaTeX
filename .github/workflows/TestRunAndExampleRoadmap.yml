@@ -12,7 +12,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: Install TeXlive
-        run: sudo apt-get update && sudo apt-get install texlive-latex-base dvisvgm texlive-luatex texlive-latex-extra
+        run: sudo apt-get update && sudo apt-get install texlive-latex-base dvisvgm texlive-luatex texlive-latex-extra texlive-fonts-extra
       - name: lookfor dvilualatex
         run: |
           sudo apt-get install apt-file
