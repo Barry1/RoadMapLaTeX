@@ -1,5 +1,9 @@
+---
+name: Test by compilation of exampleRoadmap
+
 on:
   workflow_dispatch:
+  push:
 jobs:
   my_job:
     name: TestJob
