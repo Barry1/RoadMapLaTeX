@@ -17,8 +17,7 @@ jobs:
         run: |
           sudo apt-get install apt-file
           sudo apt-file update
-          apt-file search dvilualatex
-          apt-file search dvisvgm
+          apt-file search luaotfload-main
       - name: Compile exampleRoadmap
         run: |
           git checkout --orphan exampleoutput
