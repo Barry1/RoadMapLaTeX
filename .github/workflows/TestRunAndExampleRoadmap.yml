@@ -23,8 +23,8 @@ jobs:
       - name: Push to orphan branch exampleoutput
         run: |
           git checkout --orphan exampleoutput
-          # git config --global user.name "Dr. Bastian Ebeling"
-          # git config --global user.email 230051+Barry1@users.noreply.github.com
+          git config --global user.name "Dr. Bastian Ebeling"
+          git config --global user.email 230051+Barry1@users.noreply.github.com
           git add -f exampleRoadmap.svg
           git commit -m "exampleRoadmap updated" exampleRoadmap.svg
           git push --force --set-upstream origin exampleoutput
