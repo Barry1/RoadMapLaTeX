@@ -1,6 +1,6 @@
 ---
 name: Compilation of exampleRoadmap
-
+permissions: read-all
 on:
   workflow_dispatch:
   push:
