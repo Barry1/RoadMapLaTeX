@@ -19,7 +19,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \@gtt@keydef{TechnologyColor}{rsVividOrange}%
 \@gtt@keydef{ProductColor}{rsBlue1}%
-\@gtt@keydef{ProjectColor}{rsCyan}%
+\@gtt@keydef{OpportunityColor}{rsCyan}%
 %\RequirePackage[svgnames]{xcolor}
 %Load xcolor before tikz:
 %% Colors https://ftp.gwdg.de/pub/ctan/macros/latex/contrib/xcolor/xcolor.pdf
@@ -121,7 +121,7 @@
         bar height=0.9,%
         bar top shift=0.05,%
         bar/.append style={draw=none},%
-        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}, rounded corners=2mm},%
+        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{OpportunityColor}, rounded corners=2mm},%
         name=#1]%
     {#2}{#3-#4}{#3-#4}%
 }%
@@ -131,7 +131,7 @@
         bar height=0.9,%
         bar top shift=0.05,%
         bar/.append style={draw=none},%
-        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40, rounded corners=2mm},%
+        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{OpportunityColor}!40, rounded corners=2mm},%
         name=#1]%
     {#2}{#3-#4}{#3-#4}%
 }%
@@ -141,7 +141,7 @@
 \newganttlinktype{harveySellProd}{%
     \ganttsetendanchor{on bottom=0.5}%
     \coordinate (harveycenter) at (\xRight, \yUpper);%
-    \ganttset{harvey color=\ganttvalueof{ProjectColor}}%
+    \ganttset{harvey color=\ganttvalueof{OpportunityColor}}%
     \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
     \draw [thick, ->,myMediumGray] (\xRight, \yUpper+\ganttvalueof{harvey radius}) -- (\xRight, \yLower);%-1mm%in draw[\ganttvalueof{ProductColor}]
 }%
