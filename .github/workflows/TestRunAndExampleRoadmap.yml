@@ -1,5 +1,5 @@
 ---
-name: Test by compilation of exampleRoadmap
+name: Compilation of exampleRoadmap
 
 on:
   workflow_dispatch:
@@ -14,14 +14,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Install TeXlive
+      - name: Install TeXlive and utils
         run: sudo apt-get update && sudo apt-get install texlive-latex-base dvisvgm texlive-luatex texlive-latex-extra texlive-fonts-extra
-      #- name: lookfor dvilualatex
-      #  run: |
-      #    sudo apt-get install apt-file
-      #    sudo apt-file update
-      #    apt-file search mathabx.sty
-      - name: Compile exampleRoadmap
+      - name: Compile exampleRoadmap, convert to svg and push to orphan branch exampleoutput
         run: |
           git checkout --orphan exampleoutput
           git config --global user.name "Dr. Bastian Ebeling"
