@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exHarveyTechInt{%
     \begin{tikzpicture}%
-        \fill[\ganttvalueof{TechnologyColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-200] -- cycle;%
+        \fill[\myroadmap@TechnologyColor] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-200] -- cycle;%
         \draw (0,0) circle [radius=2mm];%
     \end{tikzpicture}%
 }%
@@ -9,44 +9,44 @@
 % expl. Harvey Customer
 \def\exSellCust{%
     \begin{tikzpicture}%
-        \fill[\ganttvalueof{ProjectColor}] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-150] -- cycle;%
+        \fill[\myroadmap@OpportunityColor] (0,0) -- ++(90:2mm) arc [radius=2mm, start angle=90, end angle=-150] -- cycle;%
         \draw (0,0) circle [radius=2mm];%
     \end{tikzpicture}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exRnD{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor},rounded corners=1mm}]{}{1}{2}%
+        \ganttbar[bar/.append style={fill=\myroadmap@TechnologyColor,rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exPostRnD{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,rounded corners=1mm}]{}{1}{2}%
+        \ganttbar[bar/.append style={fill=\myroadmap@TechnologyColor!40,rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exProdMarket{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor},rounded corners=1mm}]{}{1}{2}%
+        \ganttbar[bar/.append style={fill=\myroadmap@ProductColor,rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exProdService{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{2}%
-        \ganttbar[bar/.append style={fill=\ganttvalueof{ProductColor}!40,rounded corners=1mm}]{}{1}{2}%
+        \ganttbar[bar/.append style={fill=\myroadmap@ProductColor!40,rounded corners=1mm}]{}{1}{2}%
     \end{ganttchart}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exCoreCust{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
-        \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor},draw=none, rounded corners=1mm}]{nation}{1}{1}%
+        \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\myroadmap@OpportunityColor,draw=none, rounded corners=1mm}]{nation}{1}{1}%
     \end{ganttchart}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\exBackupCust{%
     \begin{ganttchart}[bar top shift = 0.1, bar height = 0.8,y unit chart=10pt,canvas/.style={fill=none,draw=none}]{1}{1}%
-        \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{ProjectColor}!40,draw=none, rounded corners=1mm}]{nation}{1}{1}%
+        \ganttbar[inline=true,bar label font=\footnotesize,bar inline label node/.append style={inner sep=1pt,text=white,fill=\myroadmap@OpportunityColor!40,draw=none, rounded corners=1mm}]{nation}{1}{1}%
     \end{ganttchart}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

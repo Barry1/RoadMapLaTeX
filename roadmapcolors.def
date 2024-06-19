@@ -1,4 +1,13 @@
-% https://brandfactory.thyssenkrupp.info/basiselemente/farben/
+% <https://brandfactory.thyssenkrupp.info/basiselemente/farben>
+% <https://www.overleaf.com/learn/latex/Using_colors_in_LaTeX>
+%\RequirePackage[svgnames]{xcolor}
+%Load xcolor before tikz:
+%% Colors https://ftp.gwdg.de/pub/ctan/macros/latex/contrib/xcolor/xcolor.pdf
+%\selectcolormodel{cmyk}
+%Option svgnames für Farben bei documentclass nötig, sollte mit xcolor={svgnames} reichen - klappte nicht
+%% vielleicht hilft
+%\PassOptionsToPackage{svgnames}{xcolor}
+%https://tex.stackexchange.com/questions/74805/latex-error-option-clash-for-package-xcolor
 \definecolor{myBrandBlue}{RGB}{0,160,245}%
 \definecolor{myOrange}{RGB}{255,180,000}%
 \definecolor{myDarkBlue}{RGB}{0,60,125}%

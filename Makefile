@@ -7,7 +7,7 @@ PRETTY: myroadmap.sty legendtypesetting.def exampleRoadmap.tex roadmapcolors.def
 #	--outputfile=myroadmap_indented.sty
 
 %.pdf %.fls %.log %.aux %.xdv %.fdb_latexmk::%.tex myroadmap.sty
-	latexmk -pdfxe $<
+	latexmk -pdfxe -time -pv $<
 
 #%.svg : %.pdf
 #	pdf2svg $<

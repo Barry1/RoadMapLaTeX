@@ -17,33 +17,28 @@
 \RequirePackage{pgfgantt}%https://texdoc.org/serve/pgfgantt/0
 \input{roadmapcolors.def}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\@gtt@keydef{TechnologyColor}{rsVividOrange}%
-\@gtt@keydef{ProductColor}{rsBlue1}%
-\@gtt@keydef{OpportunityColor}{rsCyan}%
-%\RequirePackage[svgnames]{xcolor}
-%Load xcolor before tikz:
-%% Colors https://ftp.gwdg.de/pub/ctan/macros/latex/contrib/xcolor/xcolor.pdf
-%\selectcolormodel{cmyk}
-%Option svgnames für Farben bei documentclass nötig, sollte mit xcolor={svgnames} reichen - klappte nicht
-%% vielleicht hilft
-%\PassOptionsToPackage{svgnames}{xcolor}
-%https://tex.stackexchange.com/questions/74805/latex-error-option-clash-for-package-xcolor
 \RequirePackage{keyval}%
 \define@key{myroadmap}{aedate}{\def\myroadmap@aedate{#1}}%
 \define@key{myroadmap}{builddate}{\def\myroadmap@builddate{#1}}%
 \define@key{myroadmap}{font}{\def\myroadmap@font{#1}}%
+\define@key{myroadmap}{OpportunityColor}{\def\myroadmap@OpportunityColor{#1}}%
 \define@key{myroadmap}{proddate}{\def\myroadmap@proddate{#1}}%
+\define@key{myroadmap}{ProductColor}{\def\myroadmap@ProductColor{#1}}%
 \define@key{myroadmap}{roadmapwidth}{\setlength{\myroadmapwidth}{#1}}%
 \define@key{myroadmap}{state}{\def\myroadmap@state{#1}}%
 \define@key{myroadmap}{techdate}{\def\myroadmap@techdate{#1}}%
+\define@key{myroadmap}{TechnologyColor}{\def\myroadmap@TechnologyColor{#1}}%
 \setkeys{myroadmap}{%
     aedate={\today},%
     builddate={\today},%
     font={Arial},%
+    OpportunityColor={cyan},%
     proddate={\today},%
+    ProductColor={blue},%
     roadmapwidth={\linewidth},%
     state={release}%
     techdate={\today},%
+    TechnologyColor={red!50!yellow},%
 }%
 \AtBeginDocument{%
     \IfFontExistsTF{\myroadmap@font}{\setmainfont{\myroadmap@font}}{}%
@@ -86,7 +81,7 @@
 \newcommand*{\placeTech}[4]{%
     \ganttbar[%
         name=#1,%
-        bar/.append style={fill=\ganttvalueof{TechnologyColor},%
+        bar/.append style={fill=\myroadmap@TechnologyColor,%
         rounded corners=1mm}%
     ]{#2}{#3}{#4}%
 }%
@@ -95,7 +90,7 @@
         name=#1,%
         inline,%
         bar label font=\footnotesize,%
-        bar/.append style={fill=\ganttvalueof{TechnologyColor}!40,%
+        bar/.append style={fill=\myroadmap@TechnologyColor!40,%
         rounded corners=1mm}%
     ]{#2}{#3}{#4}%
 }%
@@ -104,14 +99,14 @@
         name=#1,%
         inline,%
         bar label font=\footnotesize,%
-        bar/.append style={fill=\ganttvalueof{ProductColor}!40,%
+        bar/.append style={fill=\myroadmap@ProductColor!40,%
         rounded corners=1mm}%
     ]{#2}{#3}{#4}%
 }%
 \newcommand*{\placeProd}[4]{%
     \ganttbar[%
         name=#1,%
-        bar/.append style={fill=\ganttvalueof{ProductColor},%
+        bar/.append style={fill=\myroadmap@ProductColor,%
         rounded corners=1mm}%
     ]{#2}{#3}{#4}%
 }%
@@ -121,7 +116,7 @@
         bar height=0.9,%
         bar top shift=0.05,%
         bar/.append style={draw=none},%
-        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{OpportunityColor}, rounded corners=2mm},%
+        bar inline label node/.append style={inner sep=1pt,text=white,fill=\myroadmap@OpportunityColor, rounded corners=2mm},%
         name=#1]%
     {#2}{#3-#4}{#3-#4}%
 }%
@@ -131,7 +126,7 @@
         bar height=0.9,%
         bar top shift=0.05,%
         bar/.append style={draw=none},%
-        bar inline label node/.append style={inner sep=1pt,text=white,fill=\ganttvalueof{OpportunityColor}!40, rounded corners=2mm},%
+        bar inline label node/.append style={inner sep=1pt,text=white,fill=\myroadmap@OpportunityColor!40, rounded corners=2mm},%
         name=#1]%
     {#2}{#3-#4}{#3-#4}%
 }%
@@ -141,17 +136,17 @@
 \newganttlinktype{harveySellProd}{%
     \ganttsetendanchor{on bottom=0.5}%
     \coordinate (harveycenter) at (\xRight, \yUpper);%
-    \ganttset{harvey color=\ganttvalueof{OpportunityColor}}%
+    \ganttset{harvey color=\myroadmap@OpportunityColor}%
     \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
-    \draw [thick, ->,myMediumGray] (\xRight, \yUpper+\ganttvalueof{harvey radius}) -- (\xRight, \yLower);%-1mm%in draw[\ganttvalueof{ProductColor}]
+    \draw [thick, ->,myMediumGray] (\xRight, \yUpper+\ganttvalueof{harvey radius}) -- (\xRight, \yLower);%-1mm%in draw[\myroadmap@ProductColor]
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newganttlinktype{harveyImplementTech}{%
     %\ganttsetstartanchor{on top=0.5}
     %\ganttsetendanchor{on bottom=0.5}
     \coordinate (harveycenter) at (\xLeft, \yLower);%
-    \draw [thick, ->,myMediumGray] (\xLeft, \yUpper) -- (\xLeft, \yLower-\ganttvalueof{harvey radius});%in draw[\ganttvalueof{ProductColor}]
-    \ganttset{harvey color=\ganttvalueof{TechnologyColor}}%
+    \draw [thick, ->,myMediumGray] (\xLeft, \yUpper) -- (\xLeft, \yLower-\ganttvalueof{harvey radius});%in draw[\myroadmap@ProductColor]
+    \ganttset{harvey color=\myroadmap@TechnologyColor}%
     \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
