@@ -16,13 +16,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Install TeXlive and utils
         run: sudo apt-get update && sudo apt-get install texlive-latex-base dvisvgm texlive-luatex texlive-latex-extra texlive-fonts-extra
-      - name: Compile exampleRoadmap, convert to svg and push to orphan branch exampleoutput
+      - name: Compile exampleRoadmap
+        run: dvilualatex -recorder exampleRoadmap.tex
+      - name: Convert to svg
+        run: dvisvgm --no-fonts exampleRoadmap.dvi exampleRoadmap.svg
+      - name: Push to orphan branch exampleoutput
         run: |
           git checkout --orphan exampleoutput
-          git config --global user.name "Dr. Bastian Ebeling"
-          git config --global user.email 230051+Barry1@users.noreply.github.com
-          dvilualatex -recorder exampleRoadmap.tex
-          dvisvgm --no-fonts exampleRoadmap.dvi exampleRoadmap.svg
+          # git config --global user.name "Dr. Bastian Ebeling"
+          # git config --global user.email 230051+Barry1@users.noreply.github.com
           git add -f exampleRoadmap.svg
           git commit -m "exampleRoadmap updated" exampleRoadmap.svg
           git push --force --set-upstream origin exampleoutput
