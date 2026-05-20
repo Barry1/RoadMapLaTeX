@@ -9,6 +9,8 @@
 - Keep the **`newenvironment` approach** (as requested by the product manager).  
   Do **not** replace it by a start‑/stop‑command unless the team explicitly
   decides to do so.
+- Better stick to small changes to guarantee stability, as previous changed went all wrong.
+- If you have questions, raise them as long as I tell you to stop. But ask them single - one by one - ordered by relevance with the most important first.
 
 ## 2. Concrete technical learnings
 | Issue | Fix / Recommendation |
