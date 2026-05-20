@@ -13,18 +13,18 @@
 - If you have questions, raise them as long as I tell you to stop. But ask them single - one by one - ordered by relevance with the most important first.
 
 ## 2. Concrete technical learnings
-| Issue | Fix / Recommendation |
-|-------|----------------------|
-| `\myroadmapwidth` undefined | Add `\newlength\myroadmapwidth` and initialise it (`\setlength\myroadmapwidth{\linewidth}`). |
-| Missing `pgfgantt` keys (`harvey radius`, `roadmap start`, `roadmap end`) | Define only the keys that really exist (`harvey radius`, `harvey color`).  Remove the non‑existent keys from the `ganttchart` option list. |
-| No helper for date conversion | Provide `\newcommand{\myroaddate}[2]{#1-#2}` (or a more robust version). |
-| Use of `\IfInteger` without package | Either load `xifthen` or (preferred) drop the test – the helper macro already guarantees a proper `YYYY‑MM` string. |
-| Trailing whitespace in `\define@key` | Write `\define@key{myroadmap}{font}{\def\myroadmap@font{#1}}` **without** any space after the closing brace. |
-| Colour expressions like `…!40` | Enclose them in braces: `fill={\myroadmap@OpportunityColor!40}` or pre‑define a lighter alias (`\colorlet{OpportunityLight}{\myroadmap@OpportunityColor!40}`). |
-| Missing `\roadmaplayer` macro | Define a minimal macro (e.g. `\newcommand{\roadmaplayer}[1]{\ganttnewline\textbf{#1}\ganttnewline}`) or agree on a richer implementation. |
-| Undefined key `harvey percent` in link types | Register the key (`\pgfkeys{/pgfgantt/harvey percent/.initial=50}`) or hard‑code a default inside the link definition. |
-| Font not found (Arial) | Keep the warning, or supply a safe fallback like `Helvetica`. |
-| Environment termination errors | They disappear once all the above missing definitions are added. |
+| Issue                                                                     | Fix / Recommendation                                                                                                                                           |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `\myroadmapwidth` undefined                                               | Add `\newlength\myroadmapwidth` and initialise it (`\setlength\myroadmapwidth{\linewidth}`).                                                                   |
+| Missing `pgfgantt` keys (`harvey radius`, `roadmap start`, `roadmap end`) | Define only the keys that really exist (`harvey radius`, `harvey color`).  Remove the non‑existent keys from the `ganttchart` option list.                     |
+| No helper for date conversion                                             | Provide `\newcommand{\myroaddate}[2]{#1-#2}` (or a more robust version).                                                                                       |
+| Use of `\IfInteger` without package                                       | Either load `xifthen` or (preferred) drop the test – the helper macro already guarantees a proper `YYYY‑MM` string.                                            |
+| Trailing whitespace in `\define@key`                                      | Write `\define@key{myroadmap}{font}{\def\myroadmap@font{#1}}` **without** any space after the closing brace.                                                   |
+| Colour expressions like `…!40`                                            | Enclose them in braces: `fill={\myroadmap@OpportunityColor!40}` or pre‑define a lighter alias (`\colorlet{OpportunityLight}{\myroadmap@OpportunityColor!40}`). |
+| Missing `\roadmaplayer` macro                                             | Define a minimal macro (e.g. `\newcommand{\roadmaplayer}[1]{\ganttnewline\textbf{#1}\ganttnewline}`) or agree on a richer implementation.                      |
+| Undefined key `harvey percent` in link types                              | Register the key (`\pgfkeys{/pgfgantt/harvey percent/.initial=50}`) or hard‑code a default inside the link definition.                                         |
+| Font not found (Arial)                                                    | Keep the warning, or supply a safe fallback like `Helvetica`.                                                                                                  |
+| Environment termination errors                                            | They disappear once all the above missing definitions are added.                                                                                               |
 
 ## 3. Coding style & safety
 - **All custom keys must be declared** before they are used (`\pgfkeys{/pgfgantt/...}`).
@@ -39,11 +39,16 @@
 3. Ensure the log ends with `Output written on …pdf (… pages).` and **no** `!` error messages.  
 4. Commit only if step 3 succeeds.
 
+## 5. Critical Lessons Learned
+- **Avoid \ganttvalueof:** Do not use `\ganttvalueof` for environment options as it is unstable and often leads to compilation errors. Always pass coordinates (start/end) as explicit arguments to custom commands.
+- **Explicit Parameters:** Prefer `\roadmaplayer{Label}{Start}{End}` over automatic detection to ensure 100% compilability across different TeX distributions.
+
+## 6. Technical Decisions
+- **Line Breaks:** `\\` is integrated into `\roadmaplayer` and `\roadmapitem` to maintain clean `.tex` files.
+- **Modular Styling:** Colors remain in `.def` files.
 ---
 
 ### ✅ Bottom line for you (Dr. Bastian Ebeling)
 
 > **Only accept patch fragments that are guaranteed to compile.**  
 > If a change is ambiguous or could break the build, ask for clarification first.  
-
-Feel free to tell me which of the open points (e.g. the exact behaviour of `\roadmaplayer` or the handling of `harvey percent`) you prefer, and I will supply the final, compile‑ready code snippets. 🚀
