@@ -1,4 +1,4 @@
-.PHONY: PRETTY GITHUB_SVG_UPDATE ALL clean
+.PHONY: PRETTY GITHUB_SVG_UPDATE PRE_LATEXINDENT PREP_ENV
 
 ALL: exampleRoadmap.pdf
 
@@ -18,9 +18,10 @@ PRETTY: myroadmap.sty legendtypesetting.def exampleRoadmap.tex roadmapcolors.def
 %.svg : %.dvi
 	dvisvgm --no-fonts $< $@
 
-clean:
-	latexmk -c
-	rm -f exampleRoadmap.svg
+PRE_LATEXINDENT:
+	sudo apt-get install --yes --no-install-recommends texlive-extra-utils
+PREP_ENV: PRE_LATEXINDENT
+	sudo apt-get install --yes --no-install-recommends latexmk dvisvgm pdf2svg lacheck texlive-fonts-extra texlive-luatex lacheck chktex
 
 GITHUB_SVG_UPDATE:
 	git checkout --orphan exampleoutput
