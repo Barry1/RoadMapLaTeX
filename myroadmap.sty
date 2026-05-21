@@ -1,201 +1,204 @@
-%myroadmap.sty
-%https://en.wikibooks.org/wiki/LaTeX/Creating_Packages
-% Vielleicht besser eine eigene documentclass roadmap?
-%% Ländercodes nach ISO ALPHA 2 http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2012:328:0007:0015:DE:PDF
-\NeedsTeXFormat{LaTeX2e}[2020/10/01]%20201001
-\ProvidesPackage{myroadmap}[2024/06/12 Paket für Tech-Prod-Markt-Roadmaps von Dr. Bastian Ebeling]%
+% myroadmap.sty - RoadMapLaTeX v6.2 (2026)
+% Opportunities / Customer X Fix + stabilere Zeilenverwaltung
+
+\NeedsTeXFormat{LaTeX2e}[2020/10/01]
+\ProvidesPackage{myroadmap}[2026/05/21 v6.2 – Robust Opportunities Fix]
+
 \RequirePackage[l2tabu, orthodox]{nag}
-\RequirePackage{calc}%
-\RequirePackage{mathabx}%https://www.sascha-frank.com/Arrow/latex-arrows.html
-\newlength{\myroadmapwidth}%
-\newlength{\myroadmappagediff}
-\newlength{\myroadmaplongestlabel}
-%\setlength{\myroadmapwidth}{219.4mm}%279.4mm
-%\addtolength{\myroadmapwidth}{-60mm}%
-\RequirePackage{fontspec}%
-\RequirePackage{booktabs}%
-\RequirePackage{pgfgantt}[2018/01/10]%2018/01/10=v5.0, 2024/06/19=v5.0a - prior is sufficient%https://texdoc.org/serve/pgfgantt/0
+\RequirePackage{calc}
+\RequirePackage{mathabx}
+\RequirePackage{fontspec}
+\RequirePackage{booktabs}
+\RequirePackage{pgfgantt}[2018/01/10]
+\RequirePackage{xcolor}
+\RequirePackage{pgfkeys}
+\RequirePackage{ifthen}
+
 \input{roadmapcolors.def}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{keyval}%
-\define@key{myroadmap}{aedate}{\def\myroadmap@aedate{#1}}%
-\define@key{myroadmap}{builddate}{\def\myroadmap@builddate{#1}}%
-\define@key{myroadmap}{font}{\def\myroadmap@font{#1}}%
-\define@key{myroadmap}{OpportunityColor}{\def\myroadmap@OpportunityColor{#1}}%
-\define@key{myroadmap}{proddate}{\def\myroadmap@proddate{#1}}%
-\define@key{myroadmap}{ProductColor}{\def\myroadmap@ProductColor{#1}}%
-\define@key{myroadmap}{roadmapwidth}{\setlength{\myroadmapwidth}{#1}}%
-\define@key{myroadmap}{state}{\def\myroadmap@state{#1}}%
-\define@key{myroadmap}{techdate}{\def\myroadmap@techdate{#1}}%
-\define@key{myroadmap}{TechnologyColor}{\def\myroadmap@TechnologyColor{#1}}%
-\setkeys{myroadmap}{%
-    aedate={\today},%
-    builddate={\today},%
-    font={Arial},%
-    OpportunityColor={cyan},%
-    proddate={\today},%
-    ProductColor={blue},%
-    roadmapwidth={\linewidth},%
-    state={release}%
-    techdate={\today},%
-    TechnologyColor={red!50!yellow},%
-}%
-\AtBeginDocument{%
-    \IfFontExistsTF{\myroadmap@font}{\setmainfont{\myroadmap@font}}{}%
-    %\font\nullfont=cmr10%shows problem with missing characters in \nullfont
-    %Ligatures=TeX is default
-    %Ligatures=TeX equivalent to Mapping=tex-text but more compatible
-    %https://texdoc.org/serve/fontspec/0 page 59 1.1
-}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf
-%title bar height
-%https://tex.stackexchange.com/questions/162601/reduce-space-between-title-and-bars-in-pgfgantt
-%\definecolor{foobaryellow}{RGB}{234,187,0}
-%\definecolor{thecustomerprojectcolor}
-%https://www.namsu.de/Extra/pakete/Xcolor.html
-%https://www.ctan.org/tex-archive/macros/latex/contrib/xcolor
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\roadmaplayer#1{\ganttgroup{#1}{\ganttvalueof{roadmap start}}{\ganttvalueof{roadmap end}}\\}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\@gtt@keydef{harvey percent}{25}%
-\@gtt@keydef{harvey radius}{1mm}%
-\@gtt@keydef{harvey color}{black}%
-% TikZ commands to draw a harvey ball at coordinate #1 with a percentage of #2
-\def\drawharveyball#1#2{%
-    \pgfmathsetmacro\harveyangle{90 - 360 * (#2 / 100)}%
-    \fill[white]%
-    (#1) -- ++(\harveyangle:\ganttvalueof{harvey radius})%
-    arc [radius=\ganttvalueof{harvey radius}, start angle=\harveyangle, end angle=-270] -- cycle;%
-    \fill[\ganttvalueof{harvey color}]%
-    (#1) -- ++(90:\ganttvalueof{harvey radius})%
-    arc [radius=\ganttvalueof{harvey radius}, start angle=90, end angle=\harveyangle] -- cycle;%
-    \draw (#1) circle [radius=\ganttvalueof{harvey radius}];%
+
+% =============================================
+% Längen
+% =============================================
+\newlength{\myroadmapwidth}
+\newlength{\myroadmappagediff}
+
+% =============================================
+% pgfkeys
+% =============================================
+\pgfkeys{/myroadmap/.cd,
+	font/.initial=Arial,
+	OpportunityColor/.initial=cyan,
+	ProductColor/.initial=blue,
+	TechnologyColor/.initial=red!50!yellow,
+	roadmapwidth/.code={\setlength{\myroadmapwidth}{#1}},
+	aedate/.initial={\today},
+	builddate/.initial={\today},
+	proddate/.initial={\today},
+	techdate/.initial={\today},
+	state/.initial=release,
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% use this chart element to specify (invisible) coordinates for Harvey links
-\newganttchartelement*{harveyanchor}{harveyanchor/.style={shape=ganttbar}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% idea for Inline, line and progress <https://tex.stackexchange.com/q/403126>
+
+\newcommand{\setroadmapoptions}[1]{\pgfkeys{/myroadmap/.cd,#1}}
+
+% Font Fallback
+\AtBeginDocument{%
+	\IfFontExistsTF{\pgfkeysvalueof{/myroadmap/font}}{%
+		\setmainfont{\pgfkeysvalueof{/myroadmap/font}}%
+	}{%
+		\PackageWarning{myroadmap}{Font „\pgfkeysvalueof{/myroadmap/font}“ not found.}%
+	}%
+}
+
+% =============================================
+% Layer
+% =============================================
+\newcommand{\roadmaplayer}[1]{%
+	\ganttnewline%
+	\ganttgroup[inline=false]{#1}{\pgfkeysvalueof{/pgfgantt/roadmap start}}{\pgfkeysvalueof{/pgfgantt/roadmap end}}%
+	\ganttnewline%
+}
+
+% =============================================
+% Harvey Balls
+% =============================================
+\@gtt@keydef{harvey percent}{50}
+\@gtt@keydef{harvey radius}{1.5mm}
+\@gtt@keydef{harvey color}{black}
+
+\def\drawharveyball#1#2{%
+	\pgfmathsetmacro\harveyangle{90 - 360* (#2/100)}% chktex 8
+	\fill[white] (#1) -- ++ (\harveyangle:\ganttvalueof{harvey radius})% chktex 8
+	arc [radius=\ganttvalueof{harvey radius}, start angle=\harveyangle, end angle=-270] -- cycle;% chktex 8
+	\fill[\ganttvalueof{harvey color}] (#1) -- ++ (90:\ganttvalueof{harvey radius})% chktex 8
+	arc [radius=\ganttvalueof{harvey radius}, start angle=90, end angle=\harveyangle] -- cycle;% chktex 8
+	\draw(#1) circle [radius=\ganttvalueof{harvey radius}];
+}
+
+\newganttchartelement*{harveyanchor}{harveyanchor/.style={shape=ganttbar}}
+
+% =============================================
+% Placement Commands
+% =============================================
 \newcommand*{\placeTech}[4]{%
-    \ganttbar[%
-        name=#1,%
-        bar/.append style={fill=\myroadmap@TechnologyColor,%
-        rounded corners=1mm}%
-    ]{#2}{#3}{#4}%
-}%
+	\ganttbar[name=#1, bar/.append style={fill=\pgfkeysvalueof{/myroadmap/TechnologyColor}, rounded corners=1mm}]{#2}{#3}{#4}%
+}
+
 \newcommand*{\placePostTech}[4]{%
-    \ganttbar[%
-        name=#1,%
-        inline,%
-        bar label font=\footnotesize,%
-        bar/.append style={fill=\myroadmap@TechnologyColor!40,%
-        rounded corners=1mm}%
-    ]{#2}{#3}{#4}%
-}%
+	\ganttbar[name=#1, inline, bar label font=\footnotesize,
+		bar/.append style={fill=\pgfkeysvalueof{/myroadmap/TechnologyColor}!40, rounded corners=1mm}]{#2}{#3}{#4}%
+}
+
 \newcommand*{\placeProdDevSer}[4]{%
-    \ganttbar[%
-        name=#1,%
-        inline,%
-        bar label font=\footnotesize,%
-        bar/.append style={fill=\myroadmap@ProductColor!40,%
-        rounded corners=1mm}%
-    ]{#2}{#3}{#4}%
-}%
+	\ganttbar[name=#1, inline, bar label font=\footnotesize,
+		bar/.append style={fill=\pgfkeysvalueof{/myroadmap/ProductColor}!40, rounded corners=1mm}]{#2}{#3}{#4}%
+}
+
 \newcommand*{\placeProd}[4]{%
-    \ganttbar[%
-        name=#1,%
-        bar/.append style={fill=\myroadmap@ProductColor,%
-        rounded corners=1mm}%
-    ]{#2}{#3}{#4}%
-}%
+	\ganttbar[name=#1, bar/.append style={fill=\pgfkeysvalueof{/myroadmap/ProductColor}, rounded corners=1mm}]{#2}{#3}{#4}%
+}
+
+% ==================== ROBUSTER Opportunities Fix ====================
 \newcommand*{\placeCust}[4]{%
-    \ganttbar[%
-        inline=true,%
-        bar height=0.9,%
-        bar top shift=0.05,%
-        bar/.append style={draw=none},%
-        bar inline label node/.append style={inner sep=1pt,text=white,fill=\myroadmap@OpportunityColor, rounded corners=2mm},%
-        name=#1]%
-    {#2}{#3-#4}{#3-#4}%
-}%
+	\ganttbar[%
+		name=#1,
+		inline=true,
+		bar height=0.85,
+		bar top shift=0.08,
+		bar/.append style={draw=none},
+		bar inline label node/.append style={%
+				inner sep=3pt,
+				text=white,
+				fill=\pgfkeysvalueof{/myroadmap/OpportunityColor},
+				rounded corners=3mm,
+				font=\small\bfseries
+			}%
+	]{#2}{#3-#4}{#3-#4}%
+}
+
 \newcommand*{\placeBackupCust}[4]{%
-    \ganttbar[%
-        inline=true,%
-        bar height=0.9,%
-        bar top shift=0.05,%
-        bar/.append style={draw=none},%
-        bar inline label node/.append style={inner sep=1pt,text=white,fill=\myroadmap@OpportunityColor!40, rounded corners=2mm},%
-        name=#1]%
-    {#2}{#3-#4}{#3-#4}%
-}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% expl. Harvey TechIntegration
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\ganttbar[%
+		name=#1,
+		inline=true,
+		bar height=0.85,
+		bar top shift=0.08,
+		bar/.append style={draw=none},
+		bar inline label node/.append style={%
+				inner sep=3pt,
+				text=white,
+				fill=\pgfkeysvalueof{/myroadmap/OpportunityColor}!40,
+				rounded corners=3mm,
+				font=\small\bfseries
+			}%
+	]{#2}{#3-#4}{#3-#4}%
+}
+
+% =============================================
+% Harvey Links
+% =============================================
 \newganttlinktype{harveySellProd}{%
-    \ganttsetendanchor{on bottom=0.5}%
-    \coordinate (harveycenter) at (\xRight, \yUpper);%
-    \ganttset{harvey color=\myroadmap@OpportunityColor}%
-    \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
-    \draw [thick, ->,myMediumGray] (\xRight, \yUpper+\ganttvalueof{harvey radius}) -- (\xRight, \yLower);%-1mm%in draw[\myroadmap@ProductColor]
-}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\ganttsetendanchor{on bottom=0.5}%
+	\coordinate(harveycenter) at (\xRight, \yUpper);%
+	\ganttset{harvey color=\pgfkeysvalueof{/myroadmap/OpportunityColor}}%
+	\drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
+	\draw[thick, ->,myMediumGray] (\xRight, \yUpper+\ganttvalueof{harvey radius}) -- (\xRight, \yLower);% chktex 8
+}
+
 \newganttlinktype{harveyImplementTech}{%
-    %\ganttsetstartanchor{on top=0.5}
-    %\ganttsetendanchor{on bottom=0.5}
-    \coordinate (harveycenter) at (\xLeft, \yLower);%
-    \draw [thick, ->,myMediumGray] (\xLeft, \yUpper) -- (\xLeft, \yLower-\ganttvalueof{harvey radius});%in draw[\myroadmap@ProductColor]
-    \ganttset{harvey color=\myroadmap@TechnologyColor}%
-    \drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
-}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%http://www.texfaq.org/FAQ-twooptarg
-%http://www.texfaq.org/FAQ-moren9
-\ifdefined\standalone\else\input{legendtypesetting.def}\fi%
-\newenvironment{bastiroadmap}[4][]{%
-    \@gtt@keydef{roadmap start}{#3}%
-    \@gtt@keydef{roadmap end}{#4}%
-    \setkeys{myroadmap}{#1}%
-    \setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%\linewidth betten than \textwidth as sensitive for multi column layout%https://de.comp.text.tex.narkive.com/QCt2KfqY/textwidth-herausfinden
-    \ifdefined\standalone%
-        \begin{ganttchart}[%hgrid,
-        vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},%
-        time slot format=isodate-yearmonth,%
-        time slot unit=month,%
-        harvey radius=1.5mm,%
-        x unit = 0.2cm,%
-        y unit chart = 0.6cm,%
-        y unit title = 0.6cm,%
-        title height=1,%
-        bar height=.7,%
-        bar top shift=.15,%
-        newline shortcut=true,%
-        include title in canvas=false%
-        ]{#3}{#4}%
-    \else%
-        \begin{center}#2\end{center}%
-        %\begin{center}
-        %\hspace*{-275pt}
-        \begin{ganttchart}[%hgrid,
-            vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},%
-            time slot format=isodate-yearmonth,%
-            time slot unit=month,%
-            harvey radius=1.5mm,%
-            x unit = 0.2cm,%
-            y unit chart = 0.6cm,%
-            y unit title = 0.6cm,%
-            title height=1,%
-            bar height=.7,%
-            bar top shift=.15,%
-            newline shortcut=true,%
-            %expand chart=\myroadmapwidth,%
-            include title in canvas=false%
-            ]{#3}{#4}%
-            \fi%
-            %\gantttitle[title/.style={draw=none, fill=red!10}]{#1}{\gtt@chartwidth}\\%
-}{%
-    \end{ganttchart}%\end{center}%
-    \ifdefined\standalone\else\par\myroadmaplegend\fi%
-}%
+	\coordinate(harveycenter) at (\xLeft, \yLower);%
+	\draw[thick, ->,myMediumGray] (\xLeft, \yUpper) -- (\xLeft, \yLower-\ganttvalueof{harvey radius});% chktex 8
+	\ganttset{harvey color=\pgfkeysvalueof{/myroadmap/TechnologyColor}}%
+	\drawharveyball{harveycenter}{\ganttvalueof{harvey percent}}%
+}
+
+% Legend
+\ifdefined\standalone\else
+	\input{legendtypesetting.def}
+
+\fi
+
+% =============================================
+% bastiroadmap Umgebung (mehr vertikaler Platz)
+% =============================================
+\newenvironment{bastiroadmap}[4][]{% #1=options, #2=title, #3=start, #4=end
+\@gtt@keydef{roadmap start}{#3}%
+\@gtt@keydef{roadmap end}{#4}%
+\setroadmapoptions{#1}%
+\setlength{\myroadmappagediff}{\linewidth-\myroadmapwidth}%
+
+\ifdefined\standalone%
+\begin{ganttchart}[% chktex 15 - cant understand No match found for `ganttchart'
+vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},
+time slot format=isodate-yearmonth,
+time slot unit=month,
+x unit=0.22cm,
+y unit chart=0.72cm,      % mehr Platz
+y unit title=0.72cm,
+title height=1,
+bar height=.75,
+bar top shift=.12,
+newline shortcut=true,
+include title in canvas=false
+]{#3}{#4}
+\else
+\begin{center}#2\end{center}
+\begin{ganttchart}[
+	vgrid={*5{draw=none},*1{red,dashed},*6{draw=none}},
+	time slot format=isodate-yearmonth,
+	time slot unit=month,
+	x unit=0.22cm,
+	y unit chart=0.72cm,
+	y unit title=0.72cm,
+	title height=1,
+	bar height=.75,
+	bar top shift=.12,
+	newline shortcut=true,
+	expand chart=\myroadmapwidth,
+	include title in canvas=false
+	]{#3}{#4}
+	\fi
+	}{%
+\end{ganttchart}
+\ifdefined\standalone\else\par\myroadmaplegend\fi
+}
+
 \endinput

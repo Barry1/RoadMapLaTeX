@@ -65,19 +65,19 @@
         \hspace*{\@nameuse{@gtt@chart@0@extrasize}}%label width in front of box
     }%
     %\begin{center}%
-    \begin{tabular}{lc|lc|lc}%
+    \begin{tabular}{lc|lc|lc}% chktex 44
         \multicolumn{2}{c|}{customer} & \multicolumn{2}{c|}{product} & \multicolumn{2}{c}{technology}                                                                                                                  \\%
         %1&2&X&3&4&X&5&6&X&7&8\\%
         \midrule%
-        core                          & \exCoreCust                  & marketing                           & \exProdMarket                                           & RnD                & \exRnD                     \\%
-        backup                        & \exBackupCust                & development/servicing               & \exProdService                                          & post RnD           & \exPostRnD                 \\%
-        get-rate{@}EDC                & \exSellCust                  & \rotatebox[origin=c]{180}{\(\Rsh\)} & \multicolumn{1}{r|}{\rotatebox[origin=c]{90}{\(\Rsh\)}} & integration        & \exHarveyTechInt           \\%
+        core                          & \exCoreCust                  & marketing                           & \exProdMarket                                           & RnD                & \exRnD                     \\% chktex 1
+        backup                        & \exBackupCust                & development/servicing               & \exProdService                                          & post RnD           & \exPostRnD                 \\% chktex 1
+        get-rate{@}EDC                & \exSellCust                  & \rotatebox[origin=c]{180}{\(\Rsh\)} & \multicolumn{1}{r|}{\rotatebox[origin=c]{90}{\(\Rsh\)}} & integration        & \exHarveyTechInt           \\% chktex 1
         %		&\multicolumn{1}{c}{get-rate{@}EDC}&\multicolumn{1}{c}{\exSellCust}&\multicolumn{1}{c}{\exHarveyTechInt}&\multicolumn{1}{c}{integration}&\\%
         {order intake date}           & \tiny{\myroadmap@aedate}     & {information date}                  & \tiny{\myroadmap@proddate}                              & {information date} & \tiny{\myroadmap@techdate} \\%
     \end{tabular}%
     \hfill%
     \begin{tabular}{lc}%
-        fiscal year border & \exFiscYearBorder           \\%
+        fiscal year border & \exFiscYearBorder           \\% chktex 1
         \\%
         state              & {\myroadmap@state}          \\%
         creation date      & \tiny{\myroadmap@builddate} \\%
