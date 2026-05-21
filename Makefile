@@ -1,4 +1,4 @@
-.PHONY: PRETTY GITHUB_SVG_UPDATE PRE_LATEXINDENT PREP_ENV
+.PHONY: PRETTY GITHUB_SVG_UPDATE PRE_LATEXINDENT PREP_ENV PREP-WINFONTS clean
 
 ALL: exampleRoadmap.pdf
 
@@ -34,3 +34,12 @@ GITHUB_SVG_UPDATE:
 	git push --force --set-upstream origin exampleoutput
 	git checkout main
 	git branch -D exampleoutput
+
+PREP-WINFONTS:
+	mkdir --parents ~/.local/share/fonts/
+	cp -r /mnt/c/Windows/Fonts/* ~/.local/share/fonts/
+	fc-cache -fv
+
+clean:
+	latexmk -c
+	rm -f exampleRoadmap.svg
