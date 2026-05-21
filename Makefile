@@ -1,4 +1,4 @@
-.PHONY: PRETTY GITHUB_SVG_UPDATE
+.PHONY: PRETTY GITHUB_SVG_UPDATE ALL clean
 
 ALL: exampleRoadmap.pdf
 
@@ -17,6 +17,10 @@ PRETTY: myroadmap.sty legendtypesetting.def exampleRoadmap.tex roadmapcolors.def
 
 %.svg : %.dvi
 	dvisvgm --no-fonts $< $@
+
+clean:
+	latexmk -c
+	rm -f exampleRoadmap.svg
 
 GITHUB_SVG_UPDATE:
 	git checkout --orphan exampleoutput
